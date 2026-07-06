@@ -1,0 +1,1158 @@
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#2B2BF5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="erli Guide">
+<meta name="mobile-web-app-capable" content="yes">
+<title>erli Guide — Early Development Companion</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&amp;family=Nunito+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{--eb:#2B2BF5;--ec:#00CFFF;--muted:#8899ee;--sub:#eeeeff;--font:'Nunito',sans-serif;--font-body:'Nunito Sans',sans-serif;}
+html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;display:flex;justify-content:center;align-items:flex-start;font-family:var(--font);}
+.shell{width:100%;max-width:440px;min-height:100vh;min-height:100dvh;background:#fff;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(43,43,245,0.15);display:flex;flex-direction:column;}
+@media(min-width:480px){body{align-items:center;padding:20px 0 40px;}.shell{border:3px solid var(--eb);border-radius:44px;min-height:auto;height:min(884px,94vh);overflow-y:auto;}}
+.partner-strip{background:linear-gradient(135deg,var(--eb),#5555ff);padding:max(8px,env(safe-area-inset-top)) 20px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.ps-text{font-size:9px;font-weight:900;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.08em;}
+.ps-badge{font-size:9px;font-weight:900;color:var(--ec);background:rgba(0,207,255,0.15);border:1px solid rgba(0,207,255,0.4);border-radius:6px;padding:2px 8px;}
+#main-container{flex:1;display:flex;flex-direction:column;overflow-y:auto;position:relative;}
+#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;flex:1;background:#fff;padding:48px 32px;position:relative;overflow:hidden;}
+.splash-logo-wrap{margin-bottom:28px;animation:floatLogo 3s ease-in-out infinite;}
+@keyframes floatLogo{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.splash-wordmark{font-size:26px;font-weight:900;color:var(--eb);letter-spacing:-.5px;}
+.splash-tagline{font-size:13px;font-weight:700;color:var(--muted);margin-top:6px;text-align:center;line-height:1.5;}
+.splash-lang{display:flex;border:2.5px solid var(--eb);border-radius:14px;overflow:hidden;margin-top:24px;}
+.splash-lang button{padding:8px 22px;font-size:13px;font-weight:900;border:none;cursor:pointer;font-family:var(--font);color:var(--eb);background:transparent;transition:all .2s;}
+.splash-lang button.on{background:var(--eb);color:#fff;}
+.splash-enter{margin-top:28px;padding:14px 36px;background:var(--eb);color:#fff;border:none;border-radius:50px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 8px 24px rgba(43,43,245,0.3);}
+.splash-enter:active{transform:scale(.96);}
+.splash-badge{margin-top:20px;font-size:10px;font-weight:700;color:var(--muted);background:#f0f0ff;border-radius:20px;padding:5px 14px;text-align:center;line-height:1.5;}
+#auth-screen{display:none;flex-direction:column;align-items:center;padding:30px 26px 40px;background:#fff;flex:1;overflow-y:auto;}
+.auth-logo{margin-bottom:12px;}
+.auth-h{font-size:21px;font-weight:900;color:var(--eb);margin-bottom:4px;}
+.auth-sub{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:20px;text-align:center;line-height:1.5;}
+.auth-tabs{display:flex;border:2px solid var(--eb);border-radius:12px;overflow:hidden;margin-bottom:18px;width:100%;}
+.auth-tabs button{flex:1;padding:10px;font-size:12px;font-weight:900;border:none;cursor:pointer;font-family:var(--font);color:var(--eb);background:transparent;}
+.auth-tabs button.on{background:var(--eb);color:#fff;}
+.augrp{width:100%;font-size:10px;font-weight:900;color:var(--eb);text-transform:uppercase;letter-spacing:.09em;margin:6px 0 9px;padding-bottom:5px;border-bottom:2px solid var(--sub);display:flex;align-items:center;gap:6px;}
+.augrp span{width:20px;height:20px;border-radius:6px;background:var(--sub);display:flex;align-items:center;justify-content:center;font-size:10px;}
+.afield{width:100%;margin-bottom:12px;}
+.afield .flbl{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.ainput{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:11px 13px;font-size:13px;color:#333;font-family:var(--font-body);outline:none;}
+.ainput:focus{border-color:var(--eb);}
+.arow2{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-bottom:12px;}
+.aconsent{display:flex;gap:9px;align-items:flex-start;background:#f5f5ff;border:1.5px solid var(--sub);border-radius:12px;padding:10px 12px;margin:6px 0 16px;width:100%;}
+.aconsent input{margin-top:2px;width:16px;height:16px;flex-shrink:0;}
+.aconsent label{font-size:10px;color:#556;line-height:1.5;font-family:var(--font-body);}
+.abtn{width:100%;padding:14px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
+.aerr{display:none;background:#fff0f0;border:1px solid #ffaaaa;border-radius:10px;padding:9px 12px;font-size:11px;color:#cc3333;margin-bottom:12px;width:100%;font-family:var(--font-body);}
+.aerr.ok{background:#efffef;border-color:#44cc88;color:#226633;}
+.afoot{margin-top:20px;font-size:10px;color:#aab;text-align:center;line-height:1.7;font-family:var(--font-body);}
+#howto-screen{display:none;flex-direction:column;min-height:88vh;min-height:88dvh;background:#fff;flex:1;}
+.ht-skiptop{display:flex;justify-content:flex-end;padding:14px 20px 0;}
+.ht-skiptop button{background:none;border:none;color:var(--muted);font-size:12px;font-weight:900;cursor:pointer;font-family:var(--font);}
+.ht-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 34px;}
+.ht-icon{width:104px;height:104px;border-radius:30px;background:var(--sub);display:flex;align-items:center;justify-content:center;margin-bottom:26px;}
+.ht-step{font-size:10px;font-weight:900;color:var(--ec);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;}
+.ht-title{font-size:23px;font-weight:900;color:var(--eb);letter-spacing:-.4px;margin-bottom:12px;}
+.ht-text{font-size:14px;color:#667;line-height:1.65;font-family:var(--font-body);max-width:310px;}
+.ht-dots{display:flex;gap:7px;justify-content:center;margin:6px 0 20px;}
+.ht-dot{width:8px;height:8px;border-radius:50%;background:#dde;transition:all .25s;}
+.ht-dot.on{background:var(--eb);width:24px;border-radius:4px;}
+.ht-nav{display:flex;gap:10px;padding:0 26px calc(30px + env(safe-area-inset-bottom));}
+.ht-back{padding:14px 20px;border:2px solid var(--sub);background:#fff;border-radius:16px;font-family:var(--font);font-size:13px;font-weight:900;color:var(--muted);cursor:pointer;}
+.ht-next{flex:1;padding:14px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
+#main-app{display:none;flex-direction:column;flex:1;}
+.topbar{background:#fff;padding:12px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--sub);position:sticky;top:0;z-index:10;flex-shrink:0;}
+.topbar-logo{font-size:16px;font-weight:900;color:var(--eb);cursor:pointer;}
+.topbar-logo span{color:var(--ec);}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-date{font-size:10px;font-weight:700;color:var(--muted);}
+.lang-toggle{display:flex;border:2px solid var(--eb);border-radius:10px;overflow:hidden;}
+.lang-btn{padding:3px 10px;font-size:10px;font-weight:900;border:none;background:transparent;cursor:pointer;font-family:var(--font);color:var(--eb);}
+.lang-btn.on{background:var(--eb);color:#fff;}
+.hero{background:var(--eb);padding:14px 20px 16px;display:flex;align-items:center;gap:13px;flex-shrink:0;}
+.eg-mark{width:48px;height:48px;border-radius:15px;flex-shrink:0;overflow:hidden;}
+.hero-title{font-size:17px;font-weight:900;color:#fff;letter-spacing:-.4px;}
+.hero-title span{color:var(--ec);}
+.hero-sub{font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px;font-weight:700;}
+.streak-bar{background:var(--eb);padding:0 20px 14px;display:flex;gap:7px;flex-shrink:0;}
+.schip{flex:1;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:7px 4px;text-align:center;}
+.sn{font-size:17px;font-weight:900;color:#fff;}
+.sl{font-size:9px;color:rgba(255,255,255,0.55);margin-top:1px;font-weight:700;}
+.visit-banner{margin:10px 14px 0;border:2.5px solid var(--eb);border-radius:18px;padding:10px 13px;background:#fff;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-shrink:0;}
+.vb-left{display:flex;align-items:center;gap:9px;}
+.vb-icon{width:32px;height:32px;border-radius:10px;background:var(--sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.vb-title{font-size:12px;font-weight:900;color:var(--eb);}
+.vb-sub{font-size:10px;color:var(--muted);font-weight:700;margin-top:1px;}
+.vb-days{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:9px;padding:4px 10px;white-space:nowrap;}
+.vb-days.none{background:var(--muted);}.vb-days.soon{background:#e24b4a;}
+.nav-tabs{display:flex;border-bottom:2px solid var(--sub);background:#fff;margin-top:10px;flex-shrink:0;}
+.ntab{flex:1;padding:10px 0;font-size:11px;font-weight:900;color:var(--muted);text-align:center;cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:3px solid transparent;margin-bottom:-2px;}
+.ntab.active{color:var(--eb);border-bottom-color:var(--eb);}
+.screen{display:none;}.screen.active{display:block;}
+.sec-head{padding:12px 20px 5px;font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+.sl-card{margin:0 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:14px 16px 13px;background:#fff;}
+.sl-name{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:900;color:var(--eb);margin-bottom:12px;letter-spacing:-.3px;}
+.sl-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+input[type=range].br{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;outline:none;cursor:pointer;}
+input[type=range].br::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:9px;background:var(--eb);border:none;cursor:pointer;}
+input[type=range].br::-moz-range-thumb{width:28px;height:28px;border-radius:9px;background:var(--eb);border:none;}
+.sl-labels{display:flex;justify-content:space-between;align-items:center;margin-top:6px;}
+.sl-lbl{font-size:10px;font-weight:900;color:var(--muted);letter-spacing:.06em;}
+.sl-val{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:8px;padding:2px 9px;}
+.sl-desc{font-size:10px;color:var(--muted);margin-top:7px;font-style:italic;font-family:var(--font-body);}
+.wpills{display:flex;gap:4px;flex-wrap:wrap;margin-top:9px;}
+.wp{padding:4px 9px;border-radius:9px;border:1.5px solid #dde;background:#f5f5ff;font-size:10px;font-weight:900;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.wp.on{background:var(--eb);border-color:var(--eb);color:#fff;}
+.wctx{margin-top:8px;background:#f5f5ff;border-radius:10px;padding:7px 10px;font-size:10px;color:#555;line-height:1.55;border:1.5px solid var(--sub);font-family:var(--font-body);}
+.wctx strong{color:var(--eb);font-weight:900;}
+.note-card{margin:0 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:12px 14px;background:#fff;}
+.note-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.note-lbl{font-size:13px;font-weight:900;color:var(--eb);}
+.mtabs{display:flex;gap:4px;}
+.mtab{font-size:10px;font-weight:900;padding:4px 10px;border-radius:9px;border:1.5px solid #dde;background:#f5f5ff;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.mtab.on{background:var(--eb);border-color:var(--eb);color:#fff;}
+textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:8px 10px;font-size:12px;color:#333;font-family:var(--font-body);resize:none;outline:none;line-height:1.5;}
+.vp{display:none;}.vp.on{display:block;}.tp.off{display:none;}
+.rec-area{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 0 2px;}
+.rec-btn{width:50px;height:50px;border-radius:50%;border:2.5px solid var(--eb);background:#f0f0ff;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;}
+.rec-btn.recording{border-color:#e24b4a;background:#fff0f0;}
+.pring{position:absolute;width:50px;height:50px;border-radius:50%;border:2px solid #e24b4a;opacity:0;pointer-events:none;}
+.recording .pring{animation:pulse 1.4s ease-out infinite;}
+@keyframes pulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(1.65);opacity:0}}
+.rec-st{font-size:10px;color:var(--muted);font-weight:900;}
+.rec-tm{font-size:10px;color:#aab;font-variant-numeric:tabular-nums;}
+.waveform{display:flex;align-items:center;gap:2px;height:20px;}
+.wbar{width:3px;border-radius:2px;background:var(--ec);transition:height .1s;}
+.tbox{margin-top:8px;padding:7px 10px;background:#f5f5ff;border-radius:10px;font-size:11px;color:#444;line-height:1.5;min-height:32px;border:1.5px solid var(--sub);font-family:var(--font-body);}
+.te-ph{color:#aab;font-style:italic;}
+.rcctrls{display:flex;gap:6px;margin-top:7px;}
+.rcbtn{flex:1;padding:7px;font-size:10px;font-weight:900;border:1.5px solid #dde;border-radius:10px;background:#f5f5ff;color:var(--muted);cursor:pointer;font-family:var(--font);}
+.rcbtn.pri{background:var(--eb);border-color:var(--eb);color:#fff;}
+.save-btn{margin:6px 14px 12px;display:block;width:calc(100% - 28px);padding:14px;background:var(--eb);color:#fff;border:none;border-radius:22px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
+.save-btn:active{transform:scale(.97);}
+.success-msg{display:none;text-align:center;padding:24px 20px 12px;}
+.success-chk{width:52px;height:52px;border:2.5px solid var(--eb);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
+.ti{margin:0 14px 9px;border:2.5px solid var(--eb);border-radius:20px;padding:10px 14px 11px;background:#fff;}
+.ti-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.ti-nm{font-size:12px;font-weight:900;color:var(--eb);}
+.ti-v{font-size:10px;font-weight:900;color:#fff;background:var(--eb);border-radius:7px;padding:2px 8px;}
+.ti-bg{height:5px;background:var(--sub);border-radius:3px;overflow:hidden;}
+.ti-bar{height:100%;border-radius:3px;background:linear-gradient(to right,var(--ec),var(--eb));transition:width .7s ease;}
+.ins{margin:0 14px 9px;border:2px solid var(--sub);border-radius:18px;padding:9px 13px;font-size:10px;color:#555;line-height:1.55;background:#f8f8ff;font-family:var(--font-body);}
+.ins strong{color:var(--eb);font-weight:900;}
+.rpt-hero{background:var(--eb);padding:14px 20px 16px;}
+.rpt-badge{display:inline-block;background:rgba(0,207,255,0.2);border:1px solid var(--ec);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:900;color:var(--ec);margin-bottom:5px;}
+.rpt-title{font-size:19px;font-weight:900;color:#fff;letter-spacing:-.4px;}
+.rpt-title span{color:var(--ec);}
+.rpt-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:2px;font-weight:700;}
+.disc{margin:10px 14px;background:#fffbe6;border:1.5px solid #e6c600;border-radius:14px;padding:9px 11px;display:flex;gap:7px;align-items:flex-start;}
+.disc-t{font-size:10px;color:#7a6000;line-height:1.5;font-family:var(--font-body);}
+.disc-t strong{font-weight:900;}
+.samp{margin:0 14px 9px;background:#f0f0ff;border:1.5px dashed var(--muted);border-radius:12px;padding:7px 11px;font-size:9px;color:#667;font-weight:700;line-height:1.5;font-family:var(--font-body);}
+.area-card{margin:0 14px 9px;border:2.5px solid var(--eb);border-radius:20px;overflow:hidden;}
+.ac-hd{background:var(--eb);padding:9px 13px;display:flex;align-items:center;justify-content:space-between;}
+.ac-nm{font-size:12px;font-weight:900;color:#fff;}
+.ac-badge{font-size:9px;font-weight:900;padding:2px 8px;border-radius:7px;}
+.stable{background:#d0fff0;color:#006644;}.variable{background:#fff3cc;color:#885500;}.growing{background:#e0e8ff;color:#2222aa;}
+.ac-body{padding:8px 13px 10px;background:#fff;}
+.ac-note{font-size:10px;color:#444;line-height:1.55;font-family:var(--font-body);}
+.q-card{margin:0 14px 9px;border:2.5px solid var(--eb);border-radius:20px;overflow:hidden;}
+.q-hd{background:var(--eb);padding:9px 13px;font-size:12px;font-weight:900;color:#fff;}
+.q-body{padding:8px 13px 11px;background:#fff;}
+.q-item{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--sub);}
+.q-item:last-child{border-bottom:none;padding-bottom:0;}
+.q-num{width:18px;height:18px;border-radius:6px;background:var(--eb);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px;}
+.q-txt{font-size:10px;color:#444;line-height:1.5;flex:1;font-family:var(--font-body);}
+.visit-screen{display:none;flex-direction:column;flex:1;overflow-y:auto;}
+.visit-screen.active{display:flex;}
+.vs-back-bar{background:#fff;padding:10px 20px 9px;display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--sub);flex-shrink:0;}
+.vs-back-btn{background:none;border:none;cursor:pointer;font-family:var(--font);display:flex;align-items:center;gap:4px;font-size:11px;font-weight:900;color:var(--eb);}
+.vs-hero{background:var(--eb);padding:14px 20px 16px;flex-shrink:0;}
+.vs-title{font-size:19px;font-weight:900;color:#fff;letter-spacing:-.4px;}
+.vs-title span{color:var(--ec);}
+.vs-sub{font-size:10px;color:rgba(255,255,255,0.55);margin-top:3px;font-weight:700;}
+.cd-card{margin:12px 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:14px 16px;background:#fff;}
+.cd-row{display:flex;align-items:center;justify-content:space-between;}
+.cd-lbl{font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.cd-date{font-size:14px;font-weight:900;color:var(--eb);}
+.cd-time-txt{font-size:10px;color:var(--muted);font-weight:700;margin-top:2px;}
+.cd-days{font-size:30px;font-weight:900;color:var(--eb);line-height:1;text-align:center;}
+.cd-days-lbl{font-size:9px;font-weight:900;color:var(--muted);text-align:center;margin-top:2px;}
+.cd-prog{margin-top:10px;height:5px;background:var(--sub);border-radius:3px;overflow:hidden;}
+.cd-bar{height:100%;border-radius:3px;background:linear-gradient(to right,var(--ec),var(--eb));transition:width .6s ease;}
+.sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 14px 10px;}
+.sync-btn{border:2.5px solid var(--eb);border-radius:16px;padding:11px 8px;background:#fff;cursor:pointer;font-family:var(--font);display:flex;flex-direction:column;align-items:center;gap:5px;}
+.sync-nm{font-size:10px;font-weight:900;color:var(--eb);text-align:center;}
+.sync-sub{font-size:9px;font-weight:700;color:var(--muted);text-align:center;}
+.form-card{margin:0 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:14px 16px;background:#fff;}
+.form-title{font-size:13px;font-weight:900;color:var(--eb);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.flbl{font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.frow{margin-bottom:10px;}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.finput{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:9px 11px;font-size:12px;font-weight:700;color:var(--eb);font-family:var(--font);outline:none;}
+.finput:focus{border-color:var(--eb);}
+.fnote{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:9px 11px;font-size:11px;color:#444;font-family:var(--font-body);resize:none;outline:none;line-height:1.5;}
+.save-visit-btn{width:100%;padding:12px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:13px;font-weight:900;cursor:pointer;margin-top:2px;box-shadow:0 4px 14px rgba(43,43,245,0.25);}
+.uc-card{margin:0 14px 0;border:2.5px solid var(--eb);border-radius:20px;overflow:hidden;}
+.uc-hd{background:var(--eb);padding:9px 14px;display:flex;align-items:center;justify-content:space-between;}
+.uc-title{font-size:12px;font-weight:900;color:#fff;}
+.uc-badge{background:var(--ec);color:var(--eb);font-size:9px;font-weight:900;padding:3px 8px;border-radius:7px;}
+.uc-body{background:#fff;padding:8px 14px 10px;}
+.uc-item{display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:1px solid var(--sub);}
+.uc-item:last-child{border-bottom:none;}
+.uc-dot{width:9px;height:9px;border-radius:50%;background:var(--eb);flex-shrink:0;}
+.uc-dot.soon{background:#e24b4a;}
+.uc-info{flex:1;}
+.uc-idate{font-size:11px;font-weight:900;color:var(--eb);}
+.uc-isub{font-size:9px;color:var(--muted);font-weight:700;margin-top:1px;}
+.uc-tag{font-size:9px;font-weight:900;color:var(--muted);background:var(--sub);padding:3px 7px;border-radius:7px;}
+.uc-tag.soon{color:#e24b4a;background:#fff0f0;}
+.rem-card{margin:10px 14px 12px;border:2px solid #dde;border-radius:18px;padding:10px 13px;background:#fff;display:flex;align-items:center;justify-content:space-between;}
+.rem-left{display:flex;align-items:center;gap:8px;}
+.rem-icon{width:30px;height:30px;border-radius:9px;background:var(--sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.rem-title{font-size:11px;font-weight:900;color:var(--eb);}
+.rem-sub{font-size:9px;color:var(--muted);font-weight:700;margin-top:1px;}
+.tgl-track{width:38px;height:21px;border-radius:11px;background:#dde;transition:background .2s;display:flex;align-items:center;padding:2px;cursor:pointer;flex-shrink:0;}
+.tgl-track.on{background:var(--eb);}
+.tgl-thumb{width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .2s;}
+.tgl-track.on .tgl-thumb{transform:translateX(17px);}
+.toast-ok{display:none;margin-bottom:9px;background:#efffef;border:1.5px solid #44cc88;border-radius:12px;padding:8px 11px;font-size:10px;font-weight:900;color:#226633;align-items:center;gap:6px;font-family:var(--font);}
+.toast-ok.show{display:flex;}
+.nav-bar{background:#fff;border-top:2px solid var(--sub);display:flex;padding:9px 0 max(13px, env(safe-area-inset-bottom));position:sticky;bottom:0;flex-shrink:0;}
+.nv{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:none;font-family:var(--font);}
+.nv-icon{width:30px;height:30px;border-radius:9px;background:var(--sub);display:flex;align-items:center;justify-content:center;}
+.nv.on .nv-icon{background:var(--eb);}
+.nv-lbl{font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.nv.on .nv-lbl{color:var(--eb);}
+.link-min{background:none;border:none;color:var(--eb);font-size:10px;font-weight:800;cursor:pointer;font-family:var(--font);text-decoration:underline;}
+.link-min.danger{color:#e24b4a;}
+
+/* SETTINGS VIEW */
+.settings-screen{display:none;flex-direction:column;flex:1;overflow-y:auto;}
+.settings-screen.active{display:flex;}
+.profile-card{margin:12px 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:16px;background:#fff;}
+.p-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1.5px solid var(--sub);}
+.p-row:last-child{border-bottom:none;padding-bottom:0;}
+.p-row:first-child{padding-top:0;}
+.p-lbl{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.p-val{font-size:13px;font-weight:900;color:var(--eb);}
+
+/* HANDOFF DOCUMENT STYLE */
+#handoff-view{display:none;background:#fff;padding:32px 24px;font-family:'Nunito Sans',sans-serif;color:#222;}
+.ho-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--eb);padding-bottom:16px;margin-bottom:20px;}
+.ho-wordmark{font-size:24px;font-weight:900;color:var(--eb);font-family:var(--font);}
+.ho-wordmark span{color:var(--ec);}
+.ho-date{font-size:12px;font-weight:700;color:#667;text-align:right;}
+.ho-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.ho-card{background:#f8f8ff;border:1.5px solid var(--sub);border-radius:14px;padding:12px 14px;}
+.ho-lbl{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.ho-val{font-size:14px;font-weight:800;color:var(--eb);}
+.ho-title{font-size:16px;font-weight:900;color:var(--eb);margin-bottom:10px;border-bottom:2px solid var(--sub);padding-bottom:4px;}
+.ho-area-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--sub);}
+.ho-area-row:last-child{border-bottom:none;}
+.ho-anm{font-size:12px;font-weight:800;color:#222;}
+.ho-astat{font-size:10px;font-weight:900;padding:2px 8px;border-radius:6px;}
+.ho-q-item{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start;}
+.ho-q-num{width:20px;height:20px;background:var(--eb);color:#fff;font-size:10px;font-weight:900;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.ho-q-txt{font-size:12px;color:#333;line-height:1.5;font-weight:600;}
+
+/* PRINT STYLES */
+@media print{
+  body,html{background:#fff!important;height:auto!important;}
+  .shell{box-shadow:none!important;border:none!important;max-width:100%!important;width:100%!important;min-height:auto!important;height:auto!important;}
+  .partner-strip, .topbar, .nav-bar, #main-screens, #visit-screen, .settings-screen, .ho-controls{display:none!important;}
+  #handoff-view{display:block!important;padding:0!important;}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="partner-strip"><div class="ps-text">erli Guide — Prototype Demo</div><div class="ps-badge">Confidential</div></div>
+
+<div id="main-container">
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="splash-logo-wrap">
+    <img src="icon-512.png" alt="erli Guide" width="120" height="120" style="border-radius:28px;display:block;">
+  </div>
+  <div class="splash-wordmark">erli Guide</div>
+  <div class="splash-tagline" id="splash-tag">Nightly developmental reflection<br>to guide your pediatric visits</div>
+  <div class="splash-lang">
+    <button id="splash-en" class="on" onclick="setLang('en',event)">EN</button>
+    <button id="splash-es" onclick="setLang('es',event)">ES</button>
+  </div>
+  <button class="splash-enter" id="splash-btn" onclick="showAuth()">Get started</button>
+  <div class="splash-badge">Prototype · Not a diagnostic tool · Data stays on your device</div>
+</div>
+
+<!-- AUTH / ONBOARDING -->
+<div id="auth-screen">
+  <img class="auth-logo" src="icon-512.png" alt="erli Guide" width="60" height="60" style="border-radius:15px;">
+  <div class="auth-h" id="au-h">Welcome</div>
+  <div class="auth-sub" id="au-sub">Set up a profile to track patterns over time.</div>
+  <div class="auth-tabs">
+    <button id="tab-signin" class="on" onclick="setAuthMode('signin')">Sign in</button>
+    <button id="tab-signup" onclick="setAuthMode('signup')">Create profile</button>
+  </div>
+  <form id="auth-form" style="width:100%" onsubmit="return false;" autocomplete="on">
+    <div class="augrp su" id="au-grp-you"><span>1</span><span style="width:auto;background:none" id="au-grp-you-t">About you</span></div>
+    <div class="afield su"><div class="flbl" id="l-pname">Parent's name</div>
+      <input class="ainput" id="i-pname" type="text" autocomplete="name" placeholder="Your first name"></div>
+    <div class="afield"><div class="flbl" id="l-email">Email</div>
+      <input class="ainput" id="i-email" type="email" autocomplete="username email" inputmode="email" placeholder="you@example.com"></div>
+    <div class="afield"><div class="flbl" id="l-pass">Password</div>
+      <input class="ainput" id="i-pass" type="password" autocomplete="current-password" placeholder="Your password"></div>
+    <div class="augrp su" id="au-grp-child"><span>2</span><span style="width:auto;background:none" id="au-grp-child-t">About your child</span></div>
+    <div class="afield su"><div class="flbl" id="l-cname">Child's name (or nickname)</div>
+      <input class="ainput" id="i-cname" type="text" autocomplete="off" placeholder="e.g. Ava"></div>
+    <div class="arow2 su">
+      <div><div class="flbl" id="l-dob">Child's date of birth</div>
+        <input class="ainput" id="i-dob" type="date"></div>
+      <div><div class="flbl" id="l-sex">Child's sex</div>
+        <select class="ainput" id="i-sex">
+          <option value="f" id="opt-f">Female</option>
+          <option value="m" id="opt-m">Male</option>
+          <option value="x" id="opt-x">Prefer not to say</option>
+        </select></div>
+    </div>
+    <div class="aconsent su">
+      <input type="checkbox" id="i-consent" checked="">
+      <label for="i-consent" id="l-consent"></label>
+    </div>
+    <div class="aerr" id="au-err"></div>
+    <button class="abtn" id="au-btn" type="submit">Sign in</button>
+  </form>
+  <div class="afoot" id="au-foot"></div>
+</div>
+
+<!-- HOW IT WORKS (after first signup) -->
+<div id="howto-screen">
+  <div class="ht-skiptop"><button onclick="finishHowTo()" id="ht-skip">Skip</button></div>
+  <div class="ht-top">
+    <div class="ht-icon" id="ht-icon"></div>
+    <div class="ht-step" id="ht-step">Step 1 of 4</div>
+    <div class="ht-title" id="ht-title"></div>
+    <div class="ht-text" id="ht-text"></div>
+  </div>
+  <div class="ht-dots" id="ht-dots"></div>
+  <div class="ht-nav">
+    <button class="ht-back" id="ht-back" onclick="htPrev()" style="display:none">Back</button>
+    <button class="ht-next" id="ht-next" onclick="htNext()">Next</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="main-app">
+  <div class="topbar">
+    <div class="topbar-logo" onclick="openSettingsScreen()">erli <span>Guide</span></div>
+    <div class="topbar-right">
+      <div class="topbar-date" id="hero-date"></div>
+      <div class="lang-toggle">
+        <button class="lang-btn on" id="lang-en" onclick="setLang('en',event)">EN</button>
+        <button class="lang-btn" id="lang-es" onclick="setLang('es',event)">ES</button>
+      </div>
+      <button onclick="openSettingsScreen()" title="Settings" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;opacity:.5;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2B2BF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="main-screens">
+    <div class="hero">
+      <div class="eg-mark">
+        <img src="icon-512.png" alt="" width="48" height="48" style="display:block;">
+      </div>
+      <div>
+        <div class="hero-title" id="hero-title">Tonight's <span>reflection</span></div>
+        <div class="hero-sub" id="hero-sub">1 minute nightly habit</div>
+      </div>
+    </div>
+    <div class="streak-bar">
+      <div class="schip"><div class="sn" id="streak-n">0</div><div class="sl" id="t-streak">day streak</div></div>
+      <div class="schip"><div class="sn" id="entries-n">0</div><div class="sl" id="t-entries">entries</div></div>
+      <div class="schip"><div class="sn" id="age-n">—</div><div class="sl" id="t-agemo">months old</div></div>
+    </div>
+    <div class="visit-banner" onclick="openVisitScreen()">
+      <div class="vb-left">
+        <div class="vb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="13" rx="2.5" stroke="#2B2BF5" stroke-width="1.5"></rect><line x1="2" y1="6" x2="14" y2="6" stroke="#2B2BF5" stroke-width="1.5"></line><line x1="5" y1="1" x2="5" y2="3.5" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></line><line x1="11" y1="1" x2="11" y2="3.5" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></line><circle cx="11" cy="11" r="2.5" fill="#2B2BF5"></circle></svg></div>
+        <div><div class="vb-title" id="vb-title">Schedule pediatric visit</div><div class="vb-sub" id="vb-sub">Tap to add &amp; sync to calendar</div></div>
+      </div>
+      <div class="vb-days none" id="vb-days">+ Add</div>
+    </div>
+    <div class="nav-tabs">
+      <button class="ntab active" id="tab-btn-reflect" onclick="showTab('reflect',this)">Reflect</button>
+      <button class="ntab" id="tab-btn-trends" onclick="showTab('trends',this)">Trends</button>
+      <button class="ntab" id="tab-btn-report" onclick="showTab('report',this)">Report</button>
+    </div>
+
+    <!-- REFLECT SCREEN -->
+    <div id="tab-reflect" class="screen active">
+      <div class="sec-head" id="t-how">How did today feel?</div>
+      <div id="sliders-container"></div>
+      <div class="note-card">
+        <div class="note-top">
+          <div class="note-lbl" id="t-note-lbl">Anything worth noting?</div>
+          <div class="mtabs">
+            <button class="mtab on" id="t-type-btn" onclick="switchNote('text',this)">Type</button>
+            <button class="mtab" id="t-rec-btn" onclick="switchNote('voice',this)">Record</button>
+          </div>
+        </div>
+        <div class="tp" id="tp"><textarea class="ta" rows="3" id="note-ta" placeholder="A moment, a change, something that stood out..."></textarea></div>
+        <div class="vp" id="vp-note">
+          <div class="rec-area">
+            <button class="rec-btn" id="rec-btn" onclick="toggleRec()">
+              <div class="pring"></div>
+              <svg id="mic-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0"></path><line x1="12" y1="19" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg>
+              <svg id="stop-ic" width="20" height="20" viewBox="0 0 24 24" fill="#e24b4a" style="display:none"><rect x="5" y="5" width="14" height="14" rx="2"></rect></svg>
+            </button>
+            <div class="waveform" id="wf" style="opacity:0"></div>
+            <div class="rec-st" id="rs">Tap to start recording</div>
+            <div class="rec-tm" id="rt" style="visibility:hidden">0:00</div>
+          </div>
+          <div class="tbox"><span class="te-ph" id="te">Your voice note will appear here</span><span id="tt" style="display:none"></span></div>
+          <div class="rcctrls" id="rc" style="opacity:.3;pointer-events:none">
+            <button class="rcbtn" id="t-discard" onclick="discardRec()">Discard</button>
+            <button class="rcbtn pri" id="t-use" onclick="useRec()">Use this note</button>
+          </div>
+        </div>
+      </div>
+      <button class="save-btn" id="save-btn" onclick="doSave()">Save tonight's reflection</button>
+      <div class="success-msg" id="success-msg">
+        <div class="success-chk"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M6 14l6 6 10-12" stroke="#2B2BF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+        <div style="font-size:16px;font-weight:900;color:#2B2BF5;margin-bottom:6px" id="t-saved-title">Reflection saved</div>
+        <div style="font-size:11px;color:#aab;line-height:1.7;font-family:var(--font-body)" id="t-saved-sub">Small data, big picture.<br>See you tomorrow.</div>
+      </div>
+    </div>
+
+    <!-- TRENDS SCREEN -->
+    <div id="tab-trends" class="screen">
+      <div class="sec-head" id="t-7days">Last 7 days</div>
+      <div id="trend-list"></div>
+      <div class="sec-head" id="t-patterns">Patterns noticed</div>
+      <div class="ins" id="ins1"></div>
+      <div class="ins" id="ins2"></div>
+      <div class="ins" id="ins3"></div>
+      <div style="height:12px"></div>
+    </div>
+
+    <!-- REPORT SCREEN -->
+    <div id="tab-report" class="screen">
+      <div class="rpt-hero">
+        <div class="rpt-badge" id="t-30day">30-day summary</div>
+        <div class="rpt-title" id="t-rpt-title">Pediatric <span>visit guide</span></div>
+        <div class="rpt-sub" id="t-rpt-sub">0 of 30 entries</div>
+      </div>
+      <div class="disc">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="8" cy="8" r="7" stroke="#aa8800" stroke-width="1.5"></circle><line x1="8" y1="5" x2="8" y2="8.5" stroke="#aa8800" stroke-width="1.5" stroke-linecap="round"></line><circle cx="8" cy="11" r=".8" fill="#aa8800"></circle></svg>
+        <div class="disc-t" id="t-disc"><strong>Not a diagnostic tool.</strong> This supports conversation with your pediatrician, not a replacement for professional evaluation.</div>
+      </div>
+      <div class="sec-head" id="t-areas-head">Areas tracked</div>
+      <div id="report-list"></div>
+      <div class="sec-head" id="t-questions-head" style="margin-top:2px">Questions for your visit</div>
+      <div class="samp" id="t-samp">Example prompts — starting points for your own questions, not personalized advice.</div>
+      <div class="q-card"><div class="q-hd" id="t-ready">Bring these to your visit</div><div class="q-body" id="q-list"></div></div>
+      <button class="save-btn" style="margin-top:14px" id="t-handoff-btn" onclick="openHandoff()">Prepare hand-off report</button>
+      <button class="save-btn" style="margin-top:0px; background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;" id="t-sched-btn" onclick="openVisitScreen()">Schedule pediatric visit</button>
+    </div>
+  </div>
+
+  <!-- VISIT SCREEN -->
+  <div id="visit-screen" class="visit-screen">
+    <div class="vs-back-bar">
+      <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
+      <div style="font-size:13px;font-weight:900;color:var(--eb);" id="t-visit-hd">Pediatric visit</div>
+    </div>
+    <div class="vs-hero"><div class="vs-title" id="t-vs-title">Visit <span>scheduler</span></div><div class="vs-sub" id="t-vs-sub">Schedule, sync &amp; stay prepared</div></div>
+    <div class="cd-card">
+      <div class="cd-row">
+        <div><div class="cd-lbl" id="t-next-visit">Next visit</div><div class="cd-date" id="cd-date">No visit scheduled</div><div class="cd-time-txt" id="cd-time" style="display:none"></div></div>
+        <div id="cd-count" style="display:none;text-align:center;"><div class="cd-days" id="cd-days">—</div><div class="cd-days-lbl" id="t-days-away">days away</div></div>
+      </div>
+      <div class="cd-prog" id="cd-prog" style="display:none"><div class="cd-bar" id="cd-bar" style="width:0%"></div></div>
+    </div>
+    <div class="uc-card"><div class="uc-hd"><div class="uc-title" id="t-sched-visits">Scheduled visits</div><div class="uc-badge" id="vc-badge">0 visits</div></div>
+      <div class="uc-body" id="vc-list"></div></div>
+    <div class="rem-card" style="margin-top:10px;">
+      <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1a5 5 0 0 1 5 5v3l1.5 2H1.5L3 9V6a5 5 0 0 1 5-5z" stroke="#2B2BF5" stroke-width="1.5" fill="none"></path><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
+        <div><div class="rem-title" id="t-reminders">Visit reminders</div><div class="rem-sub" id="t-rem-sub">3 days and 1 day before</div></div></div>
+      <div class="tgl-track on" id="rem-track" onclick="toggleRem()"><div class="tgl-thumb"></div></div>
+    </div>
+    <div class="sec-head" id="t-add-cal">Add to calendar</div>
+    <div class="sync-grid">
+      <button class="sync-btn" onclick="syncCal('apple')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#2B2BF5" stroke-width="1.8"></line><line x1="8" y1="2" x2="8" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line><line x1="16" y1="2" x2="16" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line></svg><div class="sync-nm">Apple Calendar</div><div class="sync-sub">iPhone &amp; iPad</div></button>
+      <button class="sync-btn" onclick="syncCal('google')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#EA4335" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#EA4335" stroke-width="1.8"></line></svg><div class="sync-nm">Google Calendar</div><div class="sync-sub">Android &amp; web</div></button>
+      <button class="sync-btn" onclick="syncCal('outlook')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="18" rx="3" stroke="#0078D4" stroke-width="1.8"></rect></svg><div class="sync-nm">Outlook</div><div class="sync-sub">Windows &amp; web</div></button>
+      <button class="sync-btn" onclick="syncCal('ics')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><path d="M12 13v4M10 15h4" stroke="#00CFFF" stroke-width="1.8" stroke-linecap="round"></path></svg><div class="sync-nm">Download .ics</div><div class="sync-sub" id="t-any-cal">Any calendar</div></button>
+    </div>
+    <div class="sec-head" id="t-add-manual">Add manually</div>
+    <div class="form-card">
+      <div class="form-title"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="15" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="2" y1="8" x2="18" y2="8" stroke="#2B2BF5" stroke-width="1.8"></line></svg><span id="t-schedule-visit">Schedule a visit</span></div>
+      <div class="frow"><div class="flbl" id="t-visit-date">Visit date</div><input type="date" class="finput" id="f-date"></div>
+      <div class="frow2">
+        <div><div class="flbl" id="t-time-lbl">Time</div><input type="time" class="finput" id="f-time" value="09:00"></div>
+        <div><div class="flbl" id="t-dur-lbl">Duration</div><select class="finput" id="f-dur"><option value="30">30 min</option><option value="45" selected="">45 min</option><option value="60">1 hour</option><option value="90">1.5 hrs</option></select></div>
+      </div>
+      <div class="frow"><div class="flbl" id="t-doc-lbl">Doctor / clinic</div><input type="text" class="finput" id="f-doc" placeholder="Dr. Smith / City Pediatrics"></div>
+      <div class="frow"><div class="flbl" id="t-type-lbl">Visit type</div><select class="finput" id="f-type"><option id="vt1">18-month checkup</option><option id="vt2">24-month checkup</option><option id="vt3">30-month checkup</option><option id="vt4">3-year checkup</option><option id="vt5">Follow-up visit</option><option id="vt6">Other</option></select></div>
+      <div class="frow"><div class="flbl" id="t-notes-lbl">Notes (optional)</div><textarea class="fnote" id="f-notes" rows="2" placeholder="Questions to bring, things to mention..."></textarea></div>
+      <div class="toast-ok" id="toast-ok"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#44cc88"></circle><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-toast-msg">Visit saved!</span></div>
+      <button class="save-visit-btn" id="t-save-visit-btn" onclick="saveVisit()">Save visit</button>
+    </div>
+    <div style="height:20px"></div>
+  </div>
+
+  <!-- SETTINGS VIEW -->
+  <div id="settings-screen" class="settings-screen">
+    <div class="vs-back-bar">
+      <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
+      <div style="font-size:13px;font-weight:900;color:#2B2BF5;" id="t-settings-title">Profile &amp; Settings</div>
+    </div>
+    <div class="vs-hero"><div class="vs-title" id="t-set-hero">App <span>settings</span></div><div class="vs-sub" id="t-set-sub">View your account &amp; control privacy</div></div>
+    
+    <div class="profile-card">
+      <div class="p-row"><div class="p-lbl" id="t-p-pname">Parent Name</div><div class="p-val" id="p-val-name">—</div></div>
+      <div class="p-row"><div class="p-lbl" id="t-p-email">Email</div><div class="p-val" id="p-val-email">—</div></div>
+      <div class="p-row"><div class="p-lbl" id="t-p-cname">Child Name</div><div class="p-val" id="p-val-cname">—</div></div>
+      <div class="p-row"><div class="p-lbl" id="t-p-dob">Birth Date</div><div class="p-val" id="p-val-dob">—</div></div>
+    </div>
+
+    <div class="sec-head" id="t-settings-privacy">Data sharing &amp; Consent</div>
+    <div class="rem-card" style="margin-top:0px;">
+      <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1l5 2v4c0 3.5-2.5 5.7-5 6.5C5.5 12.7 3 10.5 3 7V3z" stroke="#2B2BF5" stroke-width="1.4" fill="none"></path></svg></div>
+        <div><div class="rem-title" id="t-share-title">Share usage analytics</div><div class="rem-sub" id="t-share-sub">Help me optimize. Off anytime.</div></div></div>
+      <div class="tgl-track" id="share-track" onclick="toggleShare()"><div class="tgl-thumb"></div></div>
+    </div>
+
+    <!-- LOCAL DATA WARNING CARD -->
+    <div class="disc" style="margin:10px 14px 12px; background:#eef0ff; border-color:#8899ee;">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="#2B2BF5" stroke-width="1.5"></rect><circle cx="8" cy="8" r="1.5" fill="#2B2BF5"></circle></svg>
+      <div class="disc-t" id="t-local-warn" style="color:#2B2BF5"><strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.</div>
+    </div>
+
+    <div style="text-align:center;padding:12px 0 24px">
+      <button class="link-min danger" onclick="clearData()" id="t-clear">Reset all my data on this device</button>
+    </div>
+  </div>
+
+  <!-- PEDIATRICIAN HANDOFF VIEW -->
+  <div id="handoff-view">
+    <div class="ho-controls" style="display:flex; justify-content:space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom:1.5px solid var(--sub);">
+      <button class="vs-back-btn" onclick="closeHandoff()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-ho-back">Back</span></button>
+      <button class="abtn" onclick="window.print()" style="padding: 8px 18px; font-size:12px; width:auto; margin:0; box-shadow:none;" id="t-print-btn">Print / Save PDF</button>
+    </div>
+    <div class="ho-header">
+      <div>
+        <div class="ho-wordmark">erli <span>Guide</span></div>
+        <div style="font-size:11px; font-weight:700; color:#888; margin-top:3px;" id="t-ho-tag">Social-Communication Check-in Summary</div>
+      </div>
+      <div class="ho-date" id="ho-date-val">Mar 24, 2026</div>
+    </div>
+    <div class="ho-grid">
+      <div class="ho-card"><div class="ho-lbl" id="t-ho-p">Parent</div><div class="ho-val" id="ho-parent-val">—</div></div>
+      <div class="ho-card"><div class="ho-lbl" id="t-ho-c">Child</div><div class="ho-val" id="ho-child-val">—</div></div>
+    </div>
+    <div class="ho-title" id="t-ho-trends">30-Day Area Summaries</div>
+    <div id="ho-report-list" style="margin-bottom:24px;"></div>
+    <div class="ho-title" id="t-ho-questions">Questions to Hand to Pediatrician</div>
+    <div id="ho-q-list" style="margin-bottom:24px;"></div>
+    <div class="ho-title" id="t-ho-notes">Parent Notes (Recent)</div>
+    <div id="ho-notes-val" style="font-size:12px; line-height:1.6; color:#444; font-style:italic;">No notes recorded.</div>
+    <div style="margin-top:40px; padding-top:12px; border-top:1.5px solid #ddd; font-size:9px; color:#999; text-align:center;" id="t-ho-foot">erli Guide is an experimental reflection log. It does not provide medical diagnoses or replace professional evaluations.</div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const EB='#2B2BF5',EC='#00CFFF';
+
+/* ═══ CONFIG: paste your analytics endpoint here later (deploy step). Leave '' to keep everything local. ═══ */
+const ANALYTICS_ENDPOINT = '';
+const APP_VERSION = '2025-07-06';
+
+/* ═══ LOCAL STORAGE DATA LAYER (no backend) ═══ */
+const ACCTS='erli-accounts', SESS='erli-session', STORE='erli-reflections',
+      VIS='erli-visits', ANALYTICS='erli-analytics', DEVID='erli-device';
+const FIELDS=['social','communication','shared_attention','emotional','repetitive','words'];
+function load(k){try{return JSON.parse(localStorage.getItem(k))||null;}catch(e){return null;}}
+function loadArr(k){try{return JSON.parse(localStorage.getItem(k))||[];}catch(e){return [];}}
+function save(k,d){localStorage.setItem(k,JSON.stringify(d));}
+function getAccounts(){return load(ACCTS)||{};}
+function currentEmail(){return localStorage.getItem(SESS)||'';}
+function profile(){return getAccounts()[currentEmail()]||null;}
+
+/* ═══ ANALYTICS (identifiable at parent level, only with consent; child DOB/notes/scores never sent) ═══ */
+function deviceId(){let d=localStorage.getItem(DEVID);if(!d){d='d_'+Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem(DEVID,d);}return d;}
+function ageBand(){const m=childMonths();if(m==null)return '';if(m<12)return '<12m';if(m<18)return '12-18m';if(m<24)return '18-24m';if(m<36)return '24-36m';return '36m+';}
+function send(obj){if(!ANALYTICS_ENDPOINT)return;try{fetch(ANALYTICS_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(obj)});}catch(e){}}
+function track(event,extra){
+  const now=new Date();
+  const rec=Object.assign({event,ts:now.toISOString(),hour:now.getHours(),dow:now.getDay(),lang},extra||{});
+  const log=loadArr(ANALYTICS);log.push(rec);if(log.length>500)log.shift();save(ANALYTICS,log);
+  const p=profile();
+  if(p&&p.consent){send({kind:'event',deviceId:deviceId(),parentName:p.name||'',parentEmail:p.email||'',
+    event,ts:rec.ts,hour:rec.hour,dow:rec.dow,ageBand:ageBand(),childSex:(p.child&&p.child.sex)||'',lang,v:APP_VERSION});}
+}
+function sendPerson(p){if(!p||!p.consent)return;send({kind:'person',deviceId:deviceId(),parentName:p.name||'',parentEmail:p.email||'',
+  childSex:(p.child&&p.child.sex)||'',ageBand:ageBand(),createdAt:p.createdAt,lang,v:APP_VERSION});}
+
+/* ═══ REFLECTIONS ═══ */
+function getReflections(){return loadArr(STORE).sort((a,b)=>a.date<b.date?1:-1);}
+function saveReflection(e){const all=loadArr(STORE);const i=all.findIndex(r=>r.date===e.date);if(i>=0)all[i]=e;else all.push(e);save(STORE,all);}
+function computeAverages(days){
+  const all=getReflections().slice(0,days);if(!all.length)return null;
+  return FIELDS.map(f=>{const vals=all.map(r=>r[f]).filter(v=>typeof v==='number');
+    if(!vals.length)return{avg:0,pct:0,n:0,vals:[]};
+    const avg=vals.reduce((a,b)=>a+b,0)/vals.length,max=(f==='words')?11:10;
+    return{avg,pct:Math.round(avg/max*100),n:vals.length,vals};});
+}
+const STATUS={en:{stable:'Stable',variable:'Variable',growing:'Growing'},es:{stable:'Estable',variable:'Variable',growing:'Creciendo'}};
+
+/* ═══ CHILD AGE ═══ */
+function childMonths(){const p=profile();if(!p||!p.child||!p.child.dob)return null;
+  const d=new Date(p.child.dob),n=new Date();let m=(n.getFullYear()-d.getFullYear())*12+(n.getMonth()-d.getMonth());
+  if(n.getDate()<d.getDate())m--;return Math.max(0,m);}
+function childLabel(){const p=profile();if(!p||!p.child)return '';const m=childMonths();
+  const nm=p.child.name||'';const mo=(m!=null)?(m+' '+(lang==='es'?'meses':'mo')):'';
+  return [nm,mo].filter(Boolean).join(' · ');}
+
+let lang='en',visits=[],remOn=true,isRec=false,mediaRec=null,timerInt=null,waveInt=null,secs=0,recog=null,finalT='',cdDateSet=false;
+
+/* ═══ HOW-IT-WORKS STEPS ═══ */
+const stepIcon={
+  slider:`<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="${EB}" stroke-width="1.7" stroke-linecap="round"><line x1="4" y1="8" x2="20" y2="8"/><circle cx="9" cy="8" r="2.6" fill="#fff"/><line x1="4" y1="16" x2="20" y2="16"/><circle cx="15" cy="16" r="2.6" fill="#fff"/></svg>`,
+  chart:`<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="${EB}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><polyline points="4,16 9,10 13,13 20,5"/></svg>`,
+  doc:`<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="${EB}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><line x1="8.5" y1="8" x2="15.5" y2="8"/><line x1="8.5" y1="12" x2="15.5" y2="12"/><line x1="8.5" y1="16" x2="12.5" y2="16"/></svg>`,
+  shield:`<svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="${EB}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>`
+};
+const HOW={
+  en:[
+    {ic:'slider',t:'One minute each night',x:"Move a few sliders to reflect how your child's day went across simple everyday areas. That's the whole nightly habit."},
+    {ic:'chart',t:'See gentle patterns',x:'Over days and weeks, erli Guide turns your check-ins into easy trends — the big picture, not scores to worry about.'},
+    {ic:'doc',t:'Prepare for the doctor',x:'Get a clear summary and suggested questions to bring to your pediatric visits, so the conversation is easier.'},
+    {ic:'shield',t:'Your data stays with you',x:"Your child's details and notes live only on this phone. Ready when you are — let's begin."}
+  ],
+  es:[
+    {ic:'slider',t:'Un minuto cada noche',x:'Mueve unos controles para reflejar cómo fue el día de tu hijo en áreas cotidianas simples. Ese es todo el hábito nocturno.'},
+    {ic:'chart',t:'Observa patrones suaves',x:'Con los días y semanas, erli Guide convierte tus registros en tendencias fáciles — la imagen general, no puntajes para preocuparse.'},
+    {ic:'doc',t:'Prepárate para el doctor',x:'Obtén un resumen claro y preguntas sugeridas para llevar a tus visitas pediátricas y facilitar la conversación.'},
+    {ic:'shield',t:'Tus datos son tuyos',x:'La información y notas de tu hijo viven solo en este teléfono. Cuando quieras — comencemos.'}
+  ]
+};
+let htStep=0;
+function showHowTo(){track('howto_start');['splash','auth-screen','main-app'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+  htStep=0;$('howto-screen').style.display='flex';renderHowTo();}
+function renderHowTo(){const steps=HOW[lang],s=steps[htStep];
+  set('ht-icon',stepIcon[s.ic]);txt('ht-title',s.t);txt('ht-text',s.x);
+  txt('ht-step',(lang==='es'?'Paso ':'Step ')+(htStep+1)+(lang==='es'?' de ':' of ')+steps.length);
+  const dots=$('ht-dots');dots.innerHTML='';steps.forEach((_,i)=>{const d=document.createElement('div');d.className='ht-dot'+(i===htStep?' on':'');dots.appendChild(d);});
+  $('ht-back').style.display=htStep>0?'':'none';
+  txt('ht-next',htStep===steps.length-1?(lang==='es'?'Comenzar':'Start'):(lang==='es'?'Siguiente':'Next'));
+  txt('ht-skip',lang==='es'?'Saltar':'Skip');}
+function htNext(){if(htStep<HOW[lang].length-1){htStep++;renderHowTo();}else finishHowTo();}
+function htPrev(){if(htStep>0){htStep--;renderHowTo();}}
+function finishHowTo(){track('howto_done');$('howto-screen').style.display='none';enterApp();}
+
+function p(v,max){return Math.round(v/max*100);}
+function $(id){return document.getElementById(id);}
+function set(id,v){const el=$(id);if(el)el.innerHTML=v;}
+function txt(id,v){const el=$(id);if(el)el.textContent=v;}
+function attr(id,a,v){const el=$(id);if(el)el.setAttribute(a,v);}
+
+function setLang(l,e){
+  if(e)e.stopPropagation();lang=l;
+  if($('lang-en')){$('lang-en').classList.toggle('on',l==='en');$('lang-es').classList.toggle('on',l==='es');}
+  $('splash-en').classList.toggle('on',l==='en');$('splash-es').classList.toggle('on',l==='es');
+  set('splash-tag',T[l].splashTag);txt('splash-btn',T[l].getStarted);
+  applyAuthLang();if($('howto-screen').style.display==='flex')renderHowTo();applyLang();
+}
+function applyAuthLang(){const t=T[lang];
+  txt('l-pname',t.pname);txt('l-email',t.email);txt('l-pass',t.pass);txt('l-cname',t.cname);
+  txt('l-dob',t.dob);txt('l-sex',t.sex);txt('opt-f',t.sexF);txt('opt-m',t.sexM);txt('opt-x',t.sexX);
+  txt('au-grp-you-t',t.grpYou);txt('au-grp-child-t',t.grpChild);
+  set('l-consent',t.consent);set('au-foot',t.foot);setAuthMode(authMode,true);
+}
+
+/* ═══ AUTH ═══ */
+let authMode='signin';
+function showAuth(){track('view_auth');$('splash').style.display='none';$('main-app').style.display='none';$('howto-screen').style.display='none';
+  $('auth-screen').style.display='flex';applyAuthLang();
+  setAuthMode(Object.keys(getAccounts()).length?'signin':'signup');}
+function setAuthMode(m,quiet){authMode=m;const t=T[lang],up=(m==='signup');
+  $('tab-signin').classList.toggle('on',!up);$('tab-signup').classList.toggle('on',up);
+  document.querySelectorAll('#auth-screen .su').forEach(el=>el.style.display=up?'':'none');
+  $('i-pass').setAttribute('autocomplete',up?'new-password':'current-password');
+  txt('au-h',up?t.auCreate:t.auWelcome);txt('au-sub',up?t.auSubUp:t.auSubIn);
+  txt('au-btn',up?t.btnUp:t.btnIn);if(!quiet)$('au-err').style.display='none';}
+function authErr(msg,ok){const e=$('au-err');e.className='aerr'+(ok?' ok':'');e.style.display='block';e.innerHTML=msg;}
+async function hash(str){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');}
+async function submitAuth(){
+  const email=($('i-email').value||'').trim().toLowerCase(),pass=$('i-pass').value||'';
+  if(!email||!/.+@.+\..+/.test(email))return authErr(lang==='es'?'Ingresa un correo válido.':'Please enter a valid email.');
+  if(pass.length<6)return authErr(lang==='es'?'La contraseña debe tener al menos 6 caracteres.':'Password must be at least 6 characters.');
+  const accts=getAccounts();const ph=await hash(pass);
+  if(authMode==='signup'){
+    const pname=($('i-pname').value||'').trim(),cname=($('i-cname').value||'').trim(),dob=$('i-dob').value,sex=$('i-sex').value;
+    if(!pname||!cname||!dob)return authErr(lang==='es'?'Agrega el nombre del padre y del niño, y la fecha de nacimiento.':"Please add parent and child names, and child date of birth.");
+    accts[email]={name:pname,email,passHash:ph,child:{name:cname,dob,sex},consent:$('i-consent').checked,createdAt:new Date().toISOString()};
+    save(ACCTS,accts);localStorage.setItem(SESS,email);
+    track('sign_up');sendPerson(accts[email]);showHowTo();
+  }else{
+    const a=accts[email];
+    if(!a||a.passHash!==ph)return authErr(lang==='es'?'Correo o contraseña incorrectos.':'Incorrect email or password.');
+    localStorage.setItem(SESS,email);track('sign_in');enterApp();
+  }
+}
+function signOut(){track('sign_out');localStorage.removeItem(SESS);$('main-app').style.display='none';showAuth();}
+function clearData(){if(!confirm(lang==='es'?'¿Borrar todas las reflexiones, visitas y el perfil de este dispositivo?':'Erase all reflections, visits and the profile on this device?'))return;
+  [ACCTS,SESS,STORE,VIS,ANALYTICS].forEach(k=>localStorage.removeItem(k));location.reload();}
+function toggleShare(){const accts=getAccounts(),em=currentEmail();if(!accts[em])return;
+  accts[em].consent=!accts[em].consent;save(ACCTS,accts);
+  $('share-track').classList.toggle('on',accts[em].consent);
+  if(accts[em].consent)track('consent_on');else track('consent_off');}
+
+/* ═══ APP ENTRY ═══ */
+function enterApp(){
+  $('splash').style.display='none';$('auth-screen').style.display='none';$('howto-screen').style.display='none';$('main-app').style.display='flex';
+  track('app_open');loadReflectionsIntoUI();loadVisits();applyLang();
+}
+function loadReflectionsIntoUI(){
+  const all=getReflections();$('entries-n').textContent=all.length;$('streak-n').textContent=computeStreak();
+  const m=childMonths();$('age-n').textContent=(m!=null)?m:'—';
+  const today=new Date().toISOString().split('T')[0];const e=all.find(r=>r.date===today);
+  if(e){[e.social,e.communication,e.shared_attention,e.emotional,e.repetitive,e.words].forEach((val,i)=>{
+      const sl=$('sl-'+i);if(val!=null&&sl){sl.value=val;i===5?upW(val):upS(i,sl,10);}});
+    if(e.note)$('note-ta').value=e.note;txt('save-btn',T[lang].updateBtn);}
+}
+function computeStreak(){const all=getReflections();if(!all.length)return 0;
+  const dates=new Set(all.map(r=>r.date));let streak=0,d=new Date();
+  for(;;){const key=d.toISOString().split('T')[0];if(dates.has(key)){streak++;d.setDate(d.getDate()-1);}
+    else{if(streak===0&&key===new Date().toISOString().split('T')[0]){d.setDate(d.getDate()-1);continue;}break;}}
+  return streak;}
+
+function buildSliders(){const c=$('sliders-container');c.innerHTML='';
+  SLIDER_ICONS.forEach((icon,i)=>{const t=T[lang],s=t.sliders[i],isW=(i===5),max=isW?11:10,def=SLIDER_DEFS[i],pp=p(def,max);
+    const d=document.createElement('div');d.className='sl-card';d.id='slc-'+i;
+    d.innerHTML=`<div class="sl-name"><div class="sl-icon">${ICONS[icon]}</div><span id="sl-nm-${i}">${s.name}</span></div>
+    <input type="range" class="br" id="sl-${i}" min="0" max="${max}" step="1" value="${def}" style="background:linear-gradient(to right,${EC} 0%,${EB} ${pp}%,#e0e0ff ${pp}%)" oninput="${isW?'upW(this.value)':`upS(${i},this,${max})`}">
+    <div class="sl-labels"><span class="sl-lbl" id="sl-lo-${i}">${s.lo}</span><span class="sl-val" id="val-${i}">${isW?t.wl[def]:def}</span><span class="sl-lbl" id="sl-hi-${i}">${s.hi}</span></div>
+    <div class="sl-desc" id="sl-desc-${i}">"${s.desc}"</div>${isW?`<div class="wpills" id="wpills"></div><div class="wctx" id="wctx"></div>`:''}`;
+    c.appendChild(d);});
+  buildPills();updateWordCtx();}
+function updateSliderLabels(){SLIDER_ICONS.forEach((icon,i)=>{const s=T[lang].sliders[i];
+  txt('sl-nm-'+i,s.name);txt('sl-lo-'+i,s.lo);txt('sl-hi-'+i,s.hi);txt('sl-desc-'+i,'"'+s.desc+'"');});rebuildPillLabels();}
+function upS(i,inp,max){const v=parseInt(inp.value),pp=p(v,max);inp.style.background=`linear-gradient(to right,${EC} 0%,${EB} ${pp}%,#e0e0ff ${pp}%)`;$('val-'+i).textContent=v;}
+function buildPills(){const c=$('wpills');if(!c)return;c.innerHTML='';T[lang].pl.forEach((l,i)=>{const b=document.createElement('button');b.className='wp'+(i===3?' on':'');b.textContent=l;b.onclick=()=>{$('sl-5').value=PV[i];upW(PV[i]);};c.appendChild(b);});}
+function rebuildPillLabels(){const pills=document.querySelectorAll('.wp');T[lang].pl.forEach((l,i)=>{if(pills[i])pills[i].textContent=l;});}
+function upW(raw){const v=parseInt(raw),pp=p(v,11);$('sl-5').style.background=`linear-gradient(to right,${EC} 0%,${EB} ${pp}%,#e0e0ff ${pp}%)`;$('val-5').textContent=T[lang].wl[v];document.querySelectorAll('.wp').forEach((pill,i)=>pill.classList.toggle('on',v>=PV[i]&&v<(PV[i+1]??12)));updateWordCtxVal(v);}
+function updateWordCtxVal(v){const ctx=$('wctx');if(!ctx)return;const t=T[lang],lbl=t.wl[v],w=lang==='es'?(v===1?'palabra':'palabras'):(v===1?'word':'words');ctx.innerHTML=`<strong>${lbl} ${w}:</strong> ${t.wordCtx[v]}`;}
+function updateWordCtx(){const sl=$('sl-5');if(sl)updateWordCtxVal(parseInt(sl.value));}
+
+function applyLang(){const t=T[lang];
+  if($('main-app').style.display!=='flex'){buildSliders();return;}
+  set('hero-title',t.heroTitle);txt('hero-sub',childLabel()||t.heroSub);
+  txt('t-streak',t.streak);txt('t-entries',t.entries);txt('t-agemo',t.agemo);
+  txt('t-how',t.how);txt('tab-btn-reflect',t.tabReflect);txt('tab-btn-trends',t.tabTrends);txt('tab-btn-report',t.tabReport);
+  txt('nav-reflect-lbl',t.tabReflect);txt('nav-trends-lbl',t.tabTrends);txt('nav-report-lbl',t.tabReport);
+  txt('t-note-lbl',t.noteLbl);txt('t-type-btn',t.typBtn);txt('t-rec-btn',t.recBtn);attr('note-ta','placeholder',t.notePh);
+  txt('rs',isRec?t.recStop:t.recStart);txt('te',t.recPh);txt('t-discard',t.discard);txt('t-use',t.useNote);
+  const todayHas=getReflections().some(r=>r.date===new Date().toISOString().split('T')[0]);
+  txt('save-btn',todayHas?t.updateBtn:t.saveBtn);
+  txt('t-saved-title',t.savedTitle);set('t-saved-sub',t.savedSub);
+  txt('t-7days',t.days7);txt('t-patterns',t.patterns);
+  txt('t-30day',t.badge30);set('t-rpt-title',t.rptTitle);set('t-disc',t.disc);
+  txt('t-areas-head',t.areasHead);txt('t-questions-head',t.questionsHead);txt('t-samp',t.sampNote);
+  txt('t-ready',t.ready);txt('t-sched-btn',t.schedBtn);
+  txt('vb-sub',t.vbSub);txt('t-back',t.back);txt('t-visit-hd',t.visitHd);
+  set('t-vs-title',t.vsTitle);txt('t-vs-sub',t.vsSub);txt('t-next-visit',t.nextVisit);txt('t-days-away',t.daysAway);
+  txt('t-sched-visits',t.schedVisits);txt('t-reminders',t.reminders);txt('t-rem-sub',t.remSub);
+  txt('t-privacy-head',t.privacyHead);txt('t-share-title',t.shareTitle);txt('t-share-sub',t.shareSub);
+  txt('t-add-cal',t.addCal);txt('t-add-manual',t.addManual);txt('t-any-cal',t.anyCal);
+  txt('t-schedule-visit',t.scheduleVisit);txt('t-visit-date',t.visitDate);txt('t-time-lbl',t.timeLbl);txt('t-dur-lbl',t.durLbl);
+  txt('t-doc-lbl',t.docLbl);attr('f-doc','placeholder',t.docPh);txt('t-type-lbl',t.typeLbl);txt('t-notes-lbl',t.notesLbl);attr('f-notes','placeholder',t.notesPh);
+  txt('t-clear',t.clearData);
+  ['vt1','vt2','vt3','vt4','vt5','vt6'].forEach((id,i)=>txt(id,t.vtypes[i]));
+  if(!cdDateSet)txt('cd-date',t.noVisit);
+  
+  // Settings tab translations
+  txt('t-settings-back',t.back);
+  txt('t-settings-title',t.setH);
+  txt('t-set-hero',t.setHero);
+  txt('t-set-sub',t.setSub);
+  txt('t-p-pname',t.pname);
+  txt('t-p-email',t.email);
+  txt('t-p-cname',t.cname_short);
+  txt('t-p-dob',t.dob_short);
+  txt('t-settings-privacy',t.privacyHead);
+  set('t-local-warn',t.localWarn);
+
+  // Handoff document translations
+  txt('t-ho-back',t.back);
+  txt('t-print-btn',t.printBtn);
+  txt('t-ho-tag',t.hoTag);
+  txt('t-ho-p',t.pname);
+  txt('t-ho-c',t.cname_short);
+  txt('t-ho-trends',t.areasHead);
+  txt('t-ho-questions',t.questionsHead);
+  txt('t-ho-notes',t.hoNotesTitle);
+  txt('t-ho-foot',t.hoFoot);
+  txt('t-handoff-btn',t.handoffBtn);
+
+  const acc=profile();if(acc){$('share-track').classList.toggle('on',!!acc.consent);$('p-val-name').textContent=acc.name||'—';$('p-val-email').textContent=acc.email||'—';$('p-val-cname').textContent=(acc.child&&acc.child.name)||'—';$('p-val-dob').textContent=(acc.child&&acc.child.dob)?fmtDate(acc.child.dob):'—';}
+  updateSliderLabels();updateWordCtx();rebuildTrends();rebuildReport();updateBanner();updateCountdown();renderList();
+}
+
+function showTab(name,btn){document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('tab-'+name).classList.add('active');
+  track('view_'+name);if(name==='trends')rebuildTrends();if(name==='report')rebuildReport();}
+function switchNav(name,btn){document.querySelectorAll('.nv').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  ['reflect','trends','report'].forEach((t,i)=>document.querySelectorAll('.ntab')[i].classList.toggle('active',t===name));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('tab-'+name).classList.add('active');
+  track('view_'+name);if(name==='trends')rebuildTrends();if(name==='report')rebuildReport();closeVisitScreen();closeSettingsScreen();}
+function switchNote(mode,btn){document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  $('vp-note').classList.toggle('on',mode==='voice');$('tp').classList.toggle('off',mode==='voice');if(mode==='text'&&isRec)stopRec();}
+
+function doSave(){
+  const today=new Date().toISOString().split('T')[0];
+  saveReflection({date:today,social:+$('sl-0').value,communication:+$('sl-1').value,shared_attention:+$('sl-2').value,
+    emotional:+$('sl-3').value,repetitive:+$('sl-4').value,words:+$('sl-5').value,note:$('note-ta').value||'',ageMonths:childMonths()});
+  track('reflection_saved',{ageBand:ageBand()});
+  $('entries-n').textContent=getReflections().length;$('streak-n').textContent=computeStreak();
+  $('save-btn').style.display='none';$('success-msg').style.display='block';
+}
+function loadVisits(){visits=loadArr(VIS);updateCountdown();updateBanner();renderList();}
+
+/* ═══ DYNAMIC SEVEN-DAY INSIGHTS ═══ */
+function rebuildTrends(){
+  const c=$('trend-list');if(!c)return;c.innerHTML='';const stats=computeAverages(7);
+  if(!stats){
+    c.innerHTML=`<div class="ins">${T[lang].noData7}</div>`;
+    set('ins1',T[lang].insFiller);return;
+  }
+  
+  T[lang].trends.forEach((tr,i)=>{const s=stats[i],isW=(i===5),disp=isW?'~'+s.avg.toFixed(0):s.avg.toFixed(1),unit=isW?(lang==='es'?' palabras':' words'):'/10';
+    const d=document.createElement('div');d.className='ti';
+    d.innerHTML=`<div class="ti-top"><div class="ti-nm">${tr.name}</div><div class="ti-v">${disp}${unit}</div></div><div class="ti-bg"><div class="ti-bar" style="width:0%" data-p="${s.pct}"></div></div>`;
+    c.appendChild(d);});
+
+  // Calculate variances to find steadiest/most variable areas
+  let steadiestIdx=0, mostVarIdx=0, minVar=999, maxVar=-1;
+  stats.slice(0,5).forEach((stat, i) => {
+    if(!stat.vals || stat.vals.length < 2) return;
+    const mean = stat.avg;
+    const variance = stat.vals.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / stat.vals.length;
+    if(variance < minVar) { minVar = variance; steadiestIdx = i; }
+    if(variance > maxVar) { maxVar = variance; mostVarIdx = i; }
+  });
+
+  const steadyArea = T[lang].sliders[steadiestIdx].name;
+  const varArea = T[lang].sliders[mostVarIdx].name;
+  
+  // Word count check
+  const wordStat = stats[5];
+  const wordDiff = (wordStat.vals && wordStat.vals.length >= 2) ? (wordStat.vals[0] - wordStat.vals[wordStat.vals.length - 1]) : 0;
+
+  const ins = [];
+  if(lang === 'es') {
+    ins.push(`<strong>${steadyArea}</strong> ha sido tu área más estable y constante esta semana.`);
+    if(wordDiff > 1) {
+      ins.push(`El <strong>Conteo de palabras</strong> diario muestra una tendencia al alza recientemente.`);
+    } else {
+      ins.push(`Tus registros de <strong>Conteo de palabras</strong> te darán promedios útiles para tu próxima consulta.`);
+    }
+    if(maxVar > 0.8) {
+      ins.push(`La <strong>${varArea}</strong> mostró mayor variabilidad día a día. Anotarlo te ayudará a recordar ejemplos con tu pediatra.`);
+    } else {
+      ins.push(`La constancia general en tus registros es un excelente punto de partida para tu consulta médica.`);
+    }
+  } else {
+    ins.push(`<strong>${steadyArea}</strong> has been your steadiest, most stable area this week.`);
+    if(wordDiff > 1) {
+      ins.push(`Daily <strong>Word Count</strong> is showing an upward trend recently.`);
+    } else {
+      ins.push(`Your <strong>Word Count</strong> logs are building a helpful baseline average for your doctor.`);
+    }
+    if(maxVar > 0.8) {
+      ins.push(`<strong>${varArea}</strong> showed the most day-to-day fluctuation. Noting these shifts is useful for visit preparation.`);
+    } else {
+      ins.push(`Your logs show great overall consistency. Bring this check-in summary to your pediatrician.`);
+    }
+  }
+
+  set('ins1', ins.map(i => `<div class="ins" style="margin: 0 0 10px 0;">${i}</div>`).join(''));
+  setTimeout(()=>document.querySelectorAll('.ti-bar').forEach(b=>b.style.width=b.dataset.p+'%'),80);
+}
+
+function rebuildReport(){const rl=$('report-list');if(!rl)return;rl.innerHTML='';
+  const all=getReflections(),stats=computeAverages(30);
+  txt('t-rpt-sub',`${all.length} ${lang==='es'?'de 30 registros':'of 30 entries'}`);
+  if(!stats){rl.innerHTML=`<div class="ins">${T[lang].noDataReport}</div>`;$('q-list').innerHTML='';return;}
+  T[lang].areas.forEach((a,i)=>{const s=stats[i],isW=(i===5);
+    const avgTxt=isW?'~'+s.avg.toFixed(0)+(lang==='es'?' palabras':' words'):s.avg.toFixed(1)+'/10';
+    let cls,status;if(isW){cls='growing';status=STATUS[lang].growing;}
+    else{const range=s.vals.length?Math.max(...s.vals)-Math.min(...s.vals):0;
+      if(range>=4){cls='variable';status=STATUS[lang].variable;}else{cls='stable';status=STATUS[lang].stable;}}
+    const d=document.createElement('div'); d.className='area-card';
+    d.innerHTML=`<div class="ac-hd"><div class="ac-nm">${a.name}</div><div class="ac-badge ${cls}">${status}</div></div><div class="ac-body"><div style="font-size:10px;font-weight:900;color:#2B2BF5;margin-bottom:4px">${lang==='es'?'Promedio':'Avg'}: ${avgTxt} · ${s.n} ${lang==='es'?'registros':'entries'}</div><div class="ac-note">${a.note}</div></div>`;
+    rl.appendChild(d);});
+  const ql=$('q-list');ql.innerHTML='';T[lang].questions.forEach((q,i)=>{const d=document.createElement('div');d.className='q-item';d.innerHTML=`<div class="q-num">${i+1}</div><div class="q-txt">${q}</div>`;ql.appendChild(d);});}
+
+/* ═══ VISITS ═══ */
+function openVisitScreen(){track('view_visit_scheduler');$('main-screens').style.display='none';$('visit-screen').classList.add('active');}
+function closeVisitScreen(){$('visit-screen').classList.remove('active');$('main-screens').style.display='';}
+function daysUntil(d,t){return Math.ceil((new Date(d+'T'+t)-new Date())/(864e5));}
+function fmtDate(d){return new Date(d+'T12:00').toLocaleDateString(lang==='es'?'es-ES':'en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
+function fmtTime(t){const[h,m]=t.split(':'),hr=parseInt(h),ampm=hr>=12?'PM':'AM',h12=hr%12||12;return`${h12}:${m} ${ampm}`;}
+function updateBanner(){const t=T[lang],future=visits.filter(v=>daysUntil(v.date,v.time)>=0);
+  if(!future.length){txt('vb-title',t.vbTitle);txt('vb-sub',t.vbSub);txt('vb-days',t.vbAdd);$('vb-days').className='vb-days none';return;}
+  const n=future[0],d=daysUntil(n.date,n.time);txt('vb-title',n.doctor||t.visitHd);txt('vb-sub',fmtDate(n.date)+' · '+fmtTime(n.time));
+  txt('vb-days',d===0?t.today:d+'d');$('vb-days').className='vb-days'+(d<=7?' soon':'');}
+function updateCountdown(){const t=T[lang],future=visits.filter(v=>daysUntil(v.date,v.time)>=0);
+  if(!future.length){txt('cd-date',t.noVisit);cdDateSet=false;$('cd-count').style.display='none';$('cd-time').style.display='none';$('cd-prog').style.display='none';return;}
+  const n=future[0],d=Math.max(0,daysUntil(n.date,n.time));cdDateSet=true;txt('cd-date',fmtDate(n.date));
+  txt('cd-time',fmtTime(n.time)+' · '+(n.doctor||t.visitHd));$('cd-time').style.display='block';txt('cd-days',d);
+  $('cd-count').style.display='block';$('cd-prog').style.display='block';$('cd-bar').style.width=Math.max(5,Math.min(95,Math.round((1-d/30)*100)))+'%';}
+function renderList(){const t=T[lang],list=$('vc-list'),badge=$('vc-badge');badge.textContent=visits.length+(lang==='es'?' visitas':' visits');
+  if(!visits.length){list.innerHTML=`<div style="font-size:10px;color:#aab;font-style:italic;padding:4px 0;font-weight:700;">${t.noVisitsYet}</div>`;return;}
+  list.innerHTML='';visits.forEach((v,i)=>{const d=daysUntil(v.date,v.time),soon=d<=7&&d>=0,past=d<0;
+    const el=document.createElement('div');el.className='uc-item';
+    el.innerHTML=`<div class="uc-dot ${soon?'soon':''}"></div><div class="uc-info"><div class="uc-idate">${fmtDate(v.date)}</div><div class="uc-isub">${fmtTime(v.time)} · ${v.doctor||t.visitHd}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;"><div class="uc-tag ${soon?'soon':''}">${past?t.past:d===0?t.today:d+'d'}</div><button onclick="removeVisit(${i})" style="font-size:9px;font-weight:900;color:#cc4444;background:none;border:none;cursor:pointer;font-family:inherit;">${t.remove}</button></div>`;
+    list.appendChild(el);});}
+function saveVisit(){const date=$('f-date').value;
+  if(!date){$('f-date').style.borderColor='#e24b4a';setTimeout(()=>$('f-date').style.borderColor='#dde',1500);return;}
+  visits.push({id:Date.now(),date,time:$('f-time').value,duration:+$('f-dur').value,doctor:$('f-doc').value||'',type:$('f-type').options[$('f-type').selectedIndex].text,notes:$('f-notes').value||''});
+  visits.sort((a,b)=>new Date(a.date+'T'+a.time)-new Date(b.date+'T'+b.time));save(VIS,visits);
+  track('visit_saved');updateCountdown();updateBanner();renderList();
+  const tk=$('toast-ok');tk.classList.add('show');setTimeout(()=>tk.classList.remove('show'),2500);
+  $('f-date').value='';$('f-doc').value='';$('f-notes').value='';}
+function removeVisit(i){visits.splice(i,1);save(VIS,visits);cdDateSet=false;updateCountdown();updateBanner();renderList();}
+function toggleRem(){remOn=!remOn;$('rem-track').classList.toggle('on',remOn);}
+function syncCal(type){const future=visits.filter(v=>daysUntil(v.date,v.time)>=0);
+  if(!future.length){alert(lang==='es'?'Guarda una visita primero.':'Please save a visit first.');return;}
+  track('calendar_sync',{provider:type});
+  const v=future[0],[yr,mo,dy]=v.date.split('-'),[hr,mn]=v.time.split(':'),pad=n=>n.toString().padStart(2,'0');
+  const endHr=parseInt(hr)+Math.floor((v.duration||45)/60),endMn=(parseInt(mn)+(v.duration||45)%60)%60;
+  const dtS=`${yr}${mo}${dy}T${pad(hr)}${pad(mn)}00`,dtE=`${yr}${mo}${dy}T${pad(endHr)}${pad(endMn)}00`;
+  const summ=lang==='es'?'Visita pediátrica – erli Guide':'Pediatric visit – erli Guide';const desc=`Doctor: ${v.doctor||''}`;
+  if(type==='google')window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(summ)}&dates=${dtS}/${dtE}&details=${encodeURIComponent(desc)}`,'_blank');
+  else if(type==='outlook')window.open(`https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(summ)}&startdt=${v.date}T${v.time}&body=${encodeURIComponent(desc)}`,'_blank');
+  else{const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT',`DTSTART:${dtS}`,`DTEND:${dtE}`,`SUMMARY:${summ}`,`DESCRIPTION:${desc}`,'BEGIN:VALARM','TRIGGER:-P3D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita en 3 días':'Visit in 3 days'}`,'END:VALARM','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita mañana':'Visit tomorrow'}`,'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='erli-visita.ics';a.click();}}
+
+/* ═══ SETTINGS NAVIGATION ═══ */
+function openSettingsScreen(){track('view_settings');$('main-screens').style.display='none';$('settings-screen').classList.add('active');}
+function closeSettingsScreen(){$('settings-screen').classList.remove('active');$('main-screens').style.display='';}
+
+/* ═══ PEDIATRICIAN HANDOFF DRAWER ═══ */
+function openHandoff(){
+  track('view_handoff');
+  const stats = computeAverages(30);
+  if(!stats){ alert(lang==='es'?'Guarda algunas reflexiones primero.':'Please log a few reflections first.'); return; }
+  
+  $('main-screens').style.display='none';
+  $('handoff-view').style.display='block';
+  
+  // Header values
+  $('ho-date-val').textContent = new Date().toLocaleDateString(lang==='es'?'es-ES':'en-US',{month:'short',day:'numeric',year:'numeric'});
+  const acc = profile();
+  $('ho-parent-val').textContent = acc ? acc.name : '—';
+  $('ho-child-val').textContent = childLabel() || '—';
+  
+  // Render report list
+  const list = $('ho-report-list'); list.innerHTML='';
+  T[lang].areas.forEach((a, i)=>{
+    const s = stats[i], isW=(i===5);
+    const avgTxt=isW?'~'+s.avg.toFixed(0)+(lang==='es'?' palabras':' words'):s.avg.toFixed(1)+'/10';
+    let cls,status;if(isW){cls='growing';status=STATUS[lang].growing;}
+    else{const range=s.vals.length?Math.max(...s.vals)-Math.min(...s.vals):0;
+      if(range>=4){cls='variable';status=STATUS[lang].variable;}else{cls='stable';status=STATUS[lang].stable;}}
+    
+    const el = document.createElement('div'); el.className='ho-area-row';
+    el.innerHTML = `<div class="ho-anm">${a.name} (Avg: ${avgTxt})</div><div class="ho-astat ${cls}">${status}</div>`;
+    list.appendChild(el);
+  });
+
+  // Render questions
+  const qList = $('ho-q-list'); qList.innerHTML='';
+  T[lang].questions.forEach((q, i)=>{
+    const el = document.createElement('div'); el.className='ho-q-item';
+    el.innerHTML = `<div class="ho-q-num">${i+1}</div><div class="ho-q-txt">${q}</div>`;
+    qList.appendChild(el);
+  });
+
+  // Render notes
+  const notes = getReflections().filter(r => r.note).slice(0, 5);
+  const notesVal = $('ho-notes-val');
+  if(notes.length){
+    notesVal.innerHTML = notes.map(n => `<div style="margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:6px;"><strong>${fmtDate(n.date)}:</strong> "${n.note}"</div>`).join('');
+  } else {
+    notesVal.textContent = lang==='es'?'No se han registrado notas recientes.':'No notes recorded recently.';
+  }
+}
+function closeHandoff(){ $('handoff-view').style.display='none'; $('main-screens').style.display=''; }
+
+/* ═══ VOICE NOTES ═══ */
+function toggleRec(){isRec?stopRec():startRec();}
+function startRec(){isRec=true;secs=0;finalT='';$('rec-btn').classList.add('recording');$('mic-ic').style.display='none';$('stop-ic').style.display='block';
+  $('rs').textContent=T[lang].recStop;$('rt').style.visibility='visible';$('wf').style.opacity='1';$('te').textContent=T[lang].recListening;
+  timerInt=setInterval(()=>{secs++;const m=Math.floor(secs/60),s=secs%60;$('rt').textContent=`${m}:${s.toString().padStart(2,'0')}`;},1000);
+  const wf=$('wf');wf.innerHTML='';for(let i=0;i<12;i++){const b=document.createElement('div');b.className='wbar';b.style.height='3px';wf.appendChild(b);}
+  waveInt=setInterval(()=>document.querySelectorAll('.wbar').forEach(b=>b.style.height=Math.floor(Math.random()*16+3)+'px'),120);
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){recog=new SR();recog.continuous=true;recog.interimResults=true;recog.lang=lang==='es'?'es-419':'en-US';
+    recog.onresult=e=>{let int='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)finalT+=e.results[i][0].transcript+' ';else int+=e.results[i][0].transcript;}const d=(finalT+int).trim();if(d){$('te').style.display='none';$('tt').style.display='inline';$('tt').textContent=d;}};
+    recog.onerror=()=>{};recog.start();}
+  if(navigator.mediaDevices?.getUserMedia){navigator.mediaDevices.getUserMedia({audio:true}).then(s=>{mediaRec=new MediaRecorder(s);mediaRec.start();}).catch(()=>{});}}
+function stopRec(){isRec=false;clearInterval(timerInt);clearInterval(waveInt);if(recog){try{recog.stop();}catch(e){}recog=null;}
+  if(mediaRec&&mediaRec.state!=='inactive'){mediaRec.stop();mediaRec.stream.getTracks().forEach(t=>t.stop());}
+  $('rec-btn').classList.remove('recording');$('mic-ic').style.display='block';$('stop-ic').style.display='none';$('wf').style.opacity='0';
+  const hasT=$('tt').textContent.trim().length>0;
+  if(!hasT){$('te').style.display='inline';$('te').textContent=T[lang].recRetry;$('rs').textContent=T[lang].recRetry;}
+  else{$('rs').textContent=T[lang].recDone;$('rc').style.opacity='1';$('rc').style.pointerEvents='auto';}}
+function discardRec(){finalT='';$('tt').textContent='';$('tt').style.display='none';$('te').textContent=T[lang].recPh;$('te').style.display='inline';$('rs').textContent=T[lang].recStart;$('rt').style.visibility='hidden';$('rt').textContent='0:00';$('rc').style.opacity='.3';$('rc').style.pointerEvents='none';}
+function useRec(){const t=$('tt').textContent.trim();if(t){$('note-ta').value=t;switchNote('text',document.querySelector('.mtab'));}}
+
+function showStats(){const log=loadArr(ANALYTICS);const counts={};log.forEach(r=>counts[r.event]=(counts[r.event]||0)+1);
+  const hours={};log.forEach(r=>hours[r.hour]=(hours[r.hour]||0)+1);
+  alert('erli Guide — this device\n\nEvents: '+log.length+'\n'+Object.entries(counts).map(([k,v])=>k+': '+v).join('\n')+'\n\nBy hour:\n'+Object.entries(hours).sort((a,b)=>a[0]-b[0]).map(([h,v])=>h+':00 → '+v).join('\n'));}
+
+const PV=[0,1,3,5,6,8,10,11];
+const ICONS={
+  eye:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="12" rx="10" ry="6" stroke="${EB}" stroke-width="1.8"/><circle cx="12" cy="12" r="3.5" stroke="${EC}" stroke-width="1.5"/><circle cx="12" cy="12" r="1.4" fill="${EC}"/></svg>`,
+  chat:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="13" rx="4" stroke="${EB}" stroke-width="1.8"/><path d="M7 19l3-3h6" stroke="${EB}" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  point:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v11M8 7l4-4 4 4" stroke="${EB}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 14h12v3a3 3 0 01-3 3H9a3 3 0 01-3-3v-3z" stroke="${EB}" stroke-width="1.6" fill="none"/></svg>`,
+  smile:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="${EB}" stroke-width="1.8"/><path d="M8.5 14.5s1.5 2 3.5 2 3.5-2 3.5-2" stroke="${EC}" stroke-width="1.8" stroke-linecap="round"/><circle cx="9" cy="10" r="1.2" fill="${EB}"/><circle cx="15" cy="10" r="1.2" fill="${EB}"/></svg>`,
+  rep:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4a8 8 0 1 0 8 8" stroke="${EB}" stroke-width="1.8" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="${EB}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.5" fill="${EC}" opacity=".7"/></svg>`,
+  words:`<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 11h13M3 16h8" stroke="${EB}" stroke-width="1.8" stroke-linecap="round"/><circle cx="19" cy="16" r="3" stroke="${EC}" stroke-width="1.5"/></svg>`,
+};
+const SLIDER_ICONS=['eye','chat','point','smile','rep','words'];
+const SLIDER_DEFS=[6,5,7,6,3,5];
+
+const T={
+  en:{
+    splashTag:'Nightly developmental reflection<br>to guide your pediatric visits',getStarted:'Get started',
+    auWelcome:'Welcome back',auCreate:'Create your profile',auSubIn:'Sign in to continue your nightly reflections.',auSubUp:"A few details help tailor guidance to your child's age.",
+    grpYou:'About you',grpChild:'About your child',
+    pname:"Parent's name",email:'Email',pass:'Password',cname:"Child's name (or nickname)",dob:"Child's date of birth",sex:"Child's sex",
+    cname_short:"Child Name",dob_short:"Birth Date",
+    sexF:'Female',sexM:'Male',sexX:'Prefer not to say',
+    consent:'Help improve erli Guide by sharing how &amp; when you use it — your <strong>name, email and usage times</strong>. Your child\'s birth date, notes and nightly scores are <strong>never sent</strong> and stay on this phone. You can turn this off anytime.',
+    btnIn:'Sign in',btnUp:'Create profile & continue',
+    foot:"Your child's information and reflections are stored only on this device.<br>erli Guide is a prototype, not a diagnostic tool.",
+    heroTitle:"Tonight's <span>reflection</span>",heroSub:'1 minute nightly habit',
+    streak:'day streak',entries:'entries',agemo:'months old',
+    how:'How did today feel?',tabReflect:'Reflect',tabTrends:'Trends',tabReport:'Report',
+    noteLbl:'Anything worth noting?',typBtn:'Type',recBtn:'Record',notePh:'A moment, a change, something that stood out...',
+    recStart:'Tap to start recording',recStop:'Recording... tap to stop',recDone:'Recording complete',recRetry:'No speech detected. Try again.',recListening:'Listening...',recPh:'Your voice note will appear here',
+    discard:'Discard',useNote:'Use this note',saveBtn:"Save tonight's reflection",updateBtn:"Update tonight's reflection",
+    savedTitle:'Reflection saved',savedSub:'Small data, big picture.<br>See you tomorrow.',
+    days7:'Last 7 days',patterns:'Patterns noticed',noData7:'No entries yet. Save a few nightly reflections to see your 7-day trends.',
+    insFiller:'<strong>Your insights appear here</strong> once you log a few nights — this text reflects your own entries.',
+    badge30:'30-day summary',rptTitle:'Pediatric <span>visit guide</span>',
+    disc:'<strong>Not a diagnostic tool.</strong> This supports conversation with your pediatrician, not a replacement for professional evaluation.',
+    areasHead:'Areas tracked',questionsHead:'Questions for your visit',sampNote:'Example prompts — starting points for your own questions, not personalized advice.',
+    ready:'Bring these to your visit',noDataReport:'Save a few reflections to generate your visit guide.',
+    schedBtn:'Schedule pediatric visit',
+    vbTitle:'Schedule pediatric visit',vbSub:'Tap to add & sync to calendar',vbAdd:'+ Add',
+    back:'Back',visitHd:'Pediatric visit',vsTitle:'Visit <span>scheduler</span>',vsSub:'Schedule, sync & stay prepared',
+    nextVisit:'Next visit',noVisit:'No visit scheduled',daysAway:'days away',
+    schedVisits:'Scheduled visits',noVisitsYet:'No visits yet — add one below.',
+    reminders:'Visit reminders',remSub:'3 days and 1 day before',
+    privacyHead:'Data & privacy',shareTitle:'Share usage data',shareSub:'Name, email & usage times · off anytime',
+    addCal:'Add to calendar',addManual:'Add manually',anyCal:'Any calendar',
+    scheduleVisit:'Schedule a visit',visitDate:'Visit date',timeLbl:'Time',durLbl:'Duration',
+    docLbl:'Doctor / clinic',typeLbl:'Visit type',notesLbl:'Notes (optional)',docPh:'Dr. Smith / City Pediatrics',notesPh:'Questions to bring, things to mention...',
+    vtypes:['18-month checkup','24-month checkup','30-month checkup','3-year checkup','Follow-up visit','Other'],
+    toastMsg:'Visit saved!',saveVisitBtn:'Save visit',today:'Today!',past:'Past',remove:'Remove',clearData:'Reset all my data on this device',
+    setH:'Profile & Settings',setHero:'App settings',setSub:'View your account & control privacy',
+    localWarn:'<strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.',
+    handoffBtn:'Prepare hand-off report',printBtn:'Print / Save PDF',hoTag:'Social-Communication Check-in Summary',hoNotesTitle:'Parent Notes (Recent)',
+    hoFoot:'erli Guide is an experimental reflection log. It does not provide medical diagnoses or replace professional evaluations.',
+    sliders:[{name:'Social connection',desc:'Eye contact, engagement, shared presence',lo:'LOW',hi:'HIGH'},{name:'Communication',desc:'Response to name, sounds, words',lo:'LOW',hi:'HIGH'},{name:'Shared attention',desc:'Pointing, showing, joint focus',lo:'LOW',hi:'HIGH'},{name:'Emotional engagement',desc:'Smiling, warmth, interaction',lo:'LOW',hi:'HIGH'},{name:'Repetitive behaviors',desc:'Repetitive or pattern-focused actions',lo:'LOW',hi:'HIGH'},{name:'Daily word count',desc:'Approximate number of different words today',lo:'0',hi:'10+'}],
+    wordCtx:{0:'No words noted — quiet days are valid data too.',1:'One consistent word is meaningful.',2:'A couple of reliable words.',3:'Small but growing. Used intentionally?',4:'Building steadily.',5:'Around 5 words — solid for this stage.',6:'Good range. New words appearing?',7:'Strong day. Words with gestures?',8:'Rich vocabulary day. Two-word combos?',9:'Excellent — note variety.',10:'Ten distinct words — strong communicator day.',11:'Highly expressive! Note new combinations.'},
+    trends:[{name:'Social connection'},{name:'Communication'},{name:'Shared attention'},{name:'Emotional engagement'},{name:'Repetitive behaviors'},{name:'Daily word count'}],
+    areas:[{name:'Social connection',note:'Eye contact, engagement and shared presence over the period.'},{name:'Communication',note:'Response to name, sounds and words day to day.'},{name:'Shared attention',note:'Pointing, showing and joint focus over the period.'},{name:'Emotional engagement',note:'Warmth, smiling and reciprocal interaction.'},{name:'Repetitive behaviors',note:'Repetitive or pattern-focused actions you observed.'},{name:'Daily word count',note:'Approximate distinct words per day over the period.'}],
+    questions:["How does my child's social engagement compare to what you'd expect at this age?","We've logged our daily word count — what language milestones should I look for next?","I've noticed day-to-day variability in shared attention. Is that typical?","Here's what I've observed over the past month — is there anything you'd like me to watch more closely?","What are simple things we can do at home to support development right now?"],
+    wl:['0','1','2','3','4','5','6','7','8','9','10','10+'],pl:['0','1–2','3–4','5','6–7','8–9','10','10+'],
+  },
+  es:{
+    splashTag:'Reflexión nocturna del desarrollo<br>para guiar tus visitas pediátricas',getStarted:'Comenzar',
+    auWelcome:'Bienvenido de nuevo',auCreate:'Crea tu perfil',auSubIn:'Inicia sesión para continuar tus reflexiones.',auSubUp:'Unos datos ayudan a adaptar la guía a la edad de tu hijo.',
+    grpYou:'Sobre ti',grpChild:'Sobre tu hijo/a',
+    pname:'Nombre del padre/madre',email:'Correo',pass:'Contraseña',cname:'Nombre del niño/a (o apodo)',dob:'Fecha de nacimiento',sex:'Sexo del niño/a',
+    cname_short:"Nombre del niño",dob_short:"Nacimiento",
+    sexF:'Femenino',sexM:'Masculino',sexX:'Prefiero no decir',
+    consent:'Ayuda a mejorar erli Guide compartiendo cómo y cuándo lo usas — tu <strong>nombre, correo y horarios de uso</strong>. La fecha de nacimiento, notas y puntajes de tu hijo/a <strong>nunca se envían</strong> y quedan en este teléfono. Puedes desactivarlo cuando quieras.',
+    btnIn:'Iniciar sesión',btnUp:'Crear perfil y continuar',
+    foot:'La información y reflexiones de tu hijo/a se guardan solo en este dispositivo.<br>erli Guide es un prototipo, no una herramienta de diagnóstico.',
+    heroTitle:'Reflexión de <span>esta noche</span>',heroSub:'1 minuto cada noche',
+    streak:'días seguidos',entries:'registros',agemo:'meses',
+    how:'¿Cómo fue el día de hoy?',tabReflect:'Reflexión',tabTrends:'Tendencias',tabReport:'Informe',
+    noteLbl:'¿Algo que valga la pena anotar?',typBtn:'Escribir',recBtn:'Grabar',notePh:'Un momento, un cambio, algo que llamó tu atención...',
+    recStart:'Toca para grabar',recStop:'Grabando... toca para detener',recDone:'Grabación completa',recRetry:'No se detectó voz. Intenta de nuevo.',recListening:'Escuchando...',recPh:'Tu nota de voz aparecerá aquí',
+    discard:'Descartar',useNote:'Usar esta nota',saveBtn:'Guardar reflexión de hoy',updateBtn:'Actualizar reflexión de hoy',
+    savedTitle:'Reflexión guardada',savedSub:'Pequeños datos, gran imagen.<br>Hasta mañana.',
+    days7:'Últimos 7 días',patterns:'Patrones observados',noData7:'Aún no hay registros. Guarda algunas reflexiones para ver tus tendencias de 7 días.',
+    insFiller:'<strong>Tus observaciones aparecerán aquí</strong> cuando registres algunas noches — este texto refleja tus propios registros.',
+    badge30:'Resumen de 30 días',rptTitle:'Guía para la <span>visita pediátrica</span>',
+    disc:'<strong>No es una herramienta de diagnóstico.</strong> Apoya la conversación con tu pediatra, no reemplaza la evaluación profesional.',
+    areasHead:'Áreas observadas',questionsHead:'Preguntas para tu visita',sampNote:'Ejemplos — puntos de partida para tus propias preguntas, no consejo personalizado.',
+    ready:'Lleva estas a tu visita',noDataReport:'Guarda algunas reflexiones para generar tu guía.',
+    schedBtn:'Agendar visita pediátrica',
+    vbTitle:'Agendar visita pediátrica',vbSub:'Toca para agregar y sincronizar',vbAdd:'+ Add',
+    back:'Regresar',visitHd:'Visita pediátrica',vsTitle:'Agenda tu <span>visita</span>',vsSub:'Programa, sincroniza y prepárate',
+    nextVisit:'Próxima visita',noVisit:'Sin visita programada',daysAway:'días restantes',
+    schedVisits:'Visitas programadas',noVisitsYet:'Sin visitas aún — agrega una abajo.',
+    reminders:'Recordatorios de visita',remSub:'3 días y 1 día antes',
+    privacyHead:'Datos y privacidad',shareTitle:'Compartir datos de uso',shareSub:'Nombre, correo y horarios · desactiva cuando quieras',
+    addCal:'Agregar al calendario',addManual:'Agregar manualmente',anyCal:'Cualquier calendario',
+    scheduleVisit:'Programar una visita',visitDate:'Fecha de visita',timeLbl:'Hora',durLbl:'Duración',
+    docLbl:'Doctor / clinic',typeLbl:'Tipo de visita',notesLbl:'Notes (optional)',docPh:'Dr. García / Pediatría Central',notesPh:'Preguntas para llevar, cosas que mencionar...',
+    vtypes:['Control 18 meses','Control 24 meses','Control 30 meses','Control 3 años','Visita de seguimiento','Otro'],
+    toastMsg:'¡Visita guardada!',saveVisitBtn:'Guardar visita',today:'¡Hoy!',past:'Pasado',remove:'Quitar',clearData:'Borrar todos mis datos en este dispositivo',
+    setH:'Perfil y Ajustes',setHero:'Ajustes de la app',setSub:'Ver cuenta y controlar privacidad',
+    localWarn:'<strong>Almacenamiento Local.</strong> Tus reflexiones se guardan seguras solo en este navegador. Instala esta app en tu Pantalla de Inicio para evitar que iOS borre tus registros automáticamente.',
+    handoffBtn:'Preparar reporte impreso',printBtn:'Imprimir / Guardar PDF',hoTag:'Resumen de la Consulta de Comunicación Social',hoNotesTitle:'Notas de los Padres (Recientes)',
+    hoFoot:'erli Guide es un registro de reflexión experimental. No proporciona diagnósticos médicos ni reemplaza las evaluaciones profesionales.',
+    sliders:[{name:'Conexión social',desc:'Contacto visual, presencia compartida',lo:'BAJO',hi:'ALTO'},{name:'Comunicación',desc:'Respuesta al nombre, sonidos, palabras',lo:'BAJO',hi:'ALTO'},{name:'Atención compartida',desc:'Señalar, mostrar, enfoque conjunto',lo:'BAJO',hi:'ALTO'},{name:'Compromiso emocional',desc:'Sonrisas, calidez, interacción',lo:'BAJO',hi:'ALTO'},{name:'Conductas repetitivas',desc:'Acciones repetitivas o enfocadas en patrones',lo:'BAJO',hi:'ALTO'},{name:'Conteo de palabras',desc:'Número aproximado de palabras distintas hoy',lo:'0',hi:'10+'}],
+    wordCtx:{0:'Sin palabras hoy — los días quietos también son datos válidos.',1:'Una palabra consistente es significativa.',2:'Un par de palabras confiables.',3:'Pequeño pero creciendo.',4:'Creciendo de a poco.',5:'Unas 5 palabras — sólido para esta etapa.',6:'Buen rango. ¿Palabras nuevas?',7:'Buen día. ¿Palabras con gestos?',8:'Día rico en vocabulario.',9:'Excelente — nota la variedad.',10:'¡Gran comunicador hoy!',11:'¡Muy expresivo! Nota nuevas combinaciones.'},
+    trends:[{name:'Conexión social'},{name:'Comunicación'},{name:'Atención compartida'},{name:'Compromiso emocional'},{name:'Conductas repetitivas'},{name:'Conteo de palabras'}],
+    areas:[{name:'Conexión social',note:'Contacto visual, participación y presencia compartida en el período.'},{name:'Comunicación',note:'Respuesta al nombre, sonidos y palabras día a día.'},{name:'Atención compartida',note:'Señalar, mostrar y enfoque conjunto en el período.'},{name:'Compromiso emocional',note:'Calidez, sonrisas e interacción recíproca.'},{name:'Conductas repetitivas',note:'Acciones repetitivas o enfocadas en patrones observadas.'},{name:'Conteo de palabras',note:'Palabras distintas aproximadas por día en el período.'}],
+    questions:["¿Cómo se compara la participación social de mi hijo/a con lo esperado a esta edad?","Registramos el conteo diario de palabras — ¿qué hitos del lenguaje debo esperar?","Noté variabilidad día a día en la atención compartida. ¿Es típico?","Esto es lo que observé el último mes — ¿hay algo que deba vigilar más de cerca?","¿Qué cosas simples podemos hacer en casa para apoyar el desarrollo ahora?"],
+    wl:['0','1','2','3','4','5','6','7','8','9','10','10+'],pl:['0','1–2','3–4','5','6–7','8–9','10','10+'],
+  }
+};
+
+/* ═══ INIT ═══ */
+const now=new Date();
+$('hero-date').textContent=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+$('f-date').min=now.toISOString().split('T')[0];
+
+// Dynamic Child DOB Restrictions (Max: Today, Min: Exactly 5 Years Ago)
+const todayStr = now.toISOString().split('T')[0];
+const fiveYearsAgo = new Date();
+fiveYearsAgo.setFullYear(now.getFullYear() - 5);
+const fiveYearsAgoStr = fiveYearsAgo.toISOString().split('T')[0];
+
+$('i-dob').max = todayStr;
+$('i-dob').min = fiveYearsAgoStr;
+
+$('auth-form').addEventListener('submit',submitAuth);
+buildSliders();
+if(location.hash==='#stats'){showStats();}
+if(currentEmail()&&getAccounts()[currentEmail()]){enterApp();}else{$('splash').style.display='flex';}
+
+/* ═══ SERVICE WORKER ═══ */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(e=>console.warn('SW failed',e));});}
+</script>
+
+</div></body></html>
