@@ -24,12 +24,12 @@ html,body{
   justify-content: center;
   align-items: flex-start;
   font-family: var(--font);
-  overflow: hidden; /* Evita scroll en el navegador principal */
+  overflow: hidden;
 }
 
 .shell{
   width: 100%;
-  max-width: 440px;
+  max-width: 100%; /* Full horizontal span on mobile */
   height: 100vh;
   height: 100dvh;
   background: #fff;
@@ -37,12 +37,13 @@ html,body{
   overflow: hidden;
   box-shadow: 0 0 60px rgba(43,43,245,0.15);
   display: flex;
-  flex-direction: column; /* Apila cabezal, cuerpo y footer */
+  flex-direction: column;
 }
 
 @media(min-width:480px){
   body{align-items:center;padding:20px 0 40px;}
   .shell{
+    max-width: 440px; /* Elegant desktop shell container */
     border: 3px solid var(--eb);
     border-radius: 44px;
     height: min(884px, 94vh);
@@ -60,12 +61,11 @@ html,body{
 .ps-text{font-size:9px;font-weight:900;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.08em;}
 .ps-badge{font-size:9px;font-weight:900;color:var(--ec);background:rgba(0,207,255,0.15);border:1px solid rgba(0,207,255,0.4);border-radius:6px;padding:2px 8px;}
 
-/* CONTENEDOR PRINCIPAL CON SCROLL INDEPENDIENTE */
 #main-container{
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Permite scroll vertical solo aquí adentro */
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
 }
@@ -137,12 +137,35 @@ html,body{
 .ht-back{padding:14px 20px;border:2px solid var(--sub);background:#fff;border-radius:16px;font-family:var(--font);font-size:13px;font-weight:900;color:var(--muted);cursor:pointer;}
 .ht-next{flex:1;padding:14px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
 
-#main-app{display:none;flex-direction:column;flex:1;overflow:hidden;} /* Corta scrolls externos */
+#welcome-gate{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
+  background: #fff;
+  padding: 48px 32px;
+}
+.wg-icon{
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  background: var(--sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.wg-h{font-size:24px;font-weight:900;color:var(--eb);margin-bottom:12px;}
+.wg-p{font-size:14px;color:#556;line-height:1.6;font-family:var(--font-body);max-width:280px;margin-bottom:32px;}
+
+#main-app{display:none;flex-direction:column;flex:1;overflow:hidden;}
 
 .topbar{background:#fff;padding:12px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--sub);position:sticky;top:0;z-index:10;flex-shrink:0;}
 .topbar-logo{font-size:16px;font-weight:900;color:var(--eb);cursor:pointer;}
 .topbar-logo span{color:var(--ec);}
-.topbar-right{display:flex;align-items:center;gap:8px;}
+.topbar-right{display:flex;align-items:center;gap:12px;}
 .topbar-date{font-size:10px;font-weight:700;color:var(--muted);}
 .lang-toggle{display:flex;border:2px solid var(--eb);border-radius:10px;overflow:hidden;}
 .lang-btn{padding:3px 10px;font-size:10px;font-weight:900;border:none;background:transparent;cursor:pointer;font-family:var(--font);color:var(--eb);}
@@ -166,7 +189,6 @@ html,body{
 .vb-days{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:9px;padding:4px 10px;white-space:nowrap;}
 .vb-days.none{background:var(--muted);}.vb-days.soon{background:#e24b4a;}
 
-/* PESTAÑAS REMOVIDAS DEL MEDIO, AHORA SON DECORATIVAS O SE LIMPIAN */
 .screen{display:none; padding-bottom: 24px; padding-top: 10px;}
 .screen.active{display:block;}
 
@@ -211,8 +233,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rcbtn.pri{background:var(--eb);border-color:var(--eb);color:#fff;}
 .save-btn{margin:6px 14px 12px;display:block;width:calc(100% - 28px);padding:14px;background:var(--eb);color:#fff;border:none;border-radius:22px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
 .save-btn:active{transform:scale(.97);}
-
-/* PÁGINA DE CONFIRMACIÓN (Ocupa el ancho nativo con diseño limpio) */
 .success-msg{display:none;text-align:center;padding:32px 24px;border:2.5px solid var(--eb);border-radius:22px;background:#fff;margin:10px 14px 20px;}
 .success-chk{width:52px;height:52px;border:2.5px solid var(--eb);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
 
@@ -299,12 +319,11 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rem-title{font-size:11px;font-weight:900;color:var(--eb);}
 .rem-sub{font-size:9px;color:var(--muted);font-weight:700;margin-top:1px;}
 
-/* BARRA DE NAVEGACIÓN INFERIOR (ESTILO APP NATIVA) */
 .nav-bar{
   background: #fff;
   border-top: 2.5px solid var(--sub);
   display: flex;
-  padding: 8px 0 max(10px, env(safe-area-inset-bottom)); /* Espacio inteligente para iPhone */
+  padding: 8px 0 max(10px, env(safe-area-inset-bottom));
   position: sticky;
   bottom: 0;
   flex-shrink: 0;
@@ -357,7 +376,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .link-min{background:none;border:none;color:var(--eb);font-size:10px;font-weight:800;cursor:pointer;font-family:var(--font);text-decoration:underline;}
 .link-min.danger{color:#e24b4a;}
 
-/* SETTINGS VIEW */
 .settings-screen{display:none;flex-direction:column;flex:1;overflow-y:auto;}
 .settings-screen.active{display:flex;}
 .profile-card{margin:12px 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:16px;background:#fff;}
@@ -367,7 +385,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .p-lbl{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
 .p-val{font-size:13px;font-weight:900;color:var(--eb);}
 
-/* HANDOFF DOCUMENT STYLE */
 #handoff-view{display:none;background:#fff;padding:32px 24px;font-family:'Nunito Sans',sans-serif;color:#222;}
 .ho-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--eb);padding-bottom:16px;margin-bottom:20px;}
 .ho-wordmark{font-size:24px;font-weight:900;color:var(--eb);font-family:var(--font);}
@@ -386,7 +403,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .ho-q-num{width:20px;height:20px;background:var(--eb);color:#fff;font-size:10px;font-weight:900;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
 .ho-q-txt{font-size:12px;color:#333;line-height:1.5;font-weight:600;}
 
-/* PRINT STYLES */
 @media print{
   body,html{background:#fff!important;height:auto!important;}
   .shell{box-shadow:none!important;border:none!important;max-width:100%!important;width:100%!important;min-height:auto!important;height:auto!important;}
@@ -472,6 +488,18 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
   </div>
 </div>
 
+<!-- WELCOME GATE SCREEN -->
+<div id="welcome-gate">
+  <div class="wg-icon">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2B2BF5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+    </svg>
+  </div>
+  <div class="wg-h" id="wg-title">Welcome!</div>
+  <div class="wg-p" id="wg-text">Your profile is ready. Start your first 30-day reflection log tonight.</div>
+  <button class="abtn" id="wg-btn" onclick="enterAppFromGate()">Start tonight's report</button>
+</div>
+
 <!-- MAIN APP -->
 <div id="main-app">
   <div class="topbar">
@@ -488,7 +516,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
     </div>
   </div>
 
-  <!-- SECCIONES INTERNAS CON SCROLL DENTRO DEL CONTENEDOR -->
   <div id="main-container">
     <div class="hero">
       <div class="eg-mark">
@@ -514,7 +541,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <div class="vb-days none" id="vb-days">+ Add</div>
     </div>
 
-    <!-- PESTAÑA: REFLECTION -->
+    <!-- TAB: REFLECT -->
     <div id="tab-reflect" class="screen active">
       <div id="reflection-fields-wrapper">
         <div class="sec-head" id="t-how">How did today feel?</div>
@@ -561,7 +588,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       </div>
     </div>
 
-    <!-- PESTAÑA: TRENDS -->
+    <!-- TAB: TRENDS -->
     <div id="tab-trends" class="screen">
       <div class="sec-head" id="t-7days">Last 7 days</div>
       <div id="trend-list"></div>
@@ -570,7 +597,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <div style="height:12px"></div>
     </div>
 
-    <!-- PESTAÑA: REPORT -->
+    <!-- TAB: REPORT -->
     <div id="tab-report" class="screen">
       <div class="rpt-hero">
         <div class="rpt-badge" id="t-30day">30-day summary</div>
@@ -590,7 +617,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <button class="save-btn" style="margin-top:0px; background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;" id="t-sched-btn" onclick="openVisitScreen()">Schedule pediatric visit</button>
     </div>
 
-    <!-- VISTA: VISIT SCHEDULER -->
+    <!-- VIEW: VISIT SCHEDULER -->
     <div id="visit-screen" class="visit-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
@@ -635,7 +662,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <div style="height:20px"></div>
     </div>
 
-    <!-- VISTA: SETTINGS -->
+    <!-- VIEW: SETTINGS -->
     <div id="settings-screen" class="settings-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
@@ -662,7 +689,10 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
         <div class="disc-t" id="t-local-warn" style="color:#2B2BF5"><strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.</div>
       </div>
 
-      <div style="text-align:center;padding:12px 0 24px">
+      <div style="text-align:center;padding:12px 0 12px">
+        <button class="save-btn" style="width: calc(100% - 28px); margin: 0 auto 12px; background:#fff; border: 2.5px solid #e24b4a; color:#e24b4a; box-shadow:none;" onclick="signOut()" id="t-signout-btn">Sign out</button>
+      </div>
+      <div style="text-align:center;padding:0px 0 24px">
         <button class="link-min danger" onclick="clearData()" id="t-clear">Reset all my data on this device</button>
       </div>
     </div>
@@ -694,7 +724,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
     </div>
   </div>
 
-  <!-- BARRA DE NAVEGACIÓN INFERIOR (TAB BAR FIJA) -->
   <div class="nav-bar">
     <button class="nv on" id="nv-reflect" onclick="switchNav('reflect',this)">
       <div class="nv-icon">
@@ -731,7 +760,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 <script>
 const EB='#2B2BF5',EC='#00CFFF';
 
-/* ═══ CONFIG: paste your analytics endpoint here later (deploy step). Leave '' to keep everything local. ═══ */
+/* ═══ CONFIG: analytics endpoint linked ═══ */
 const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxTcy_n3Lu6NYEW9Z3Cw8L1Zf5UnMwD7J4KONEBfi67z0-ezF3G1A_R78COYvB4vSTK/exec';
 const APP_VERSION = '2025-07-06';
 
@@ -805,7 +834,7 @@ const HOW={
   ]
 };
 let htStep=0;
-function showHowTo(){track('howto_start');['splash','auth-screen','main-app'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
+function showHowTo(){track('howto_start');['splash','auth-screen','main-app','welcome-gate'].forEach(id=>{const e=$(id);if(e)e.style.display='none';});
   htStep=0;$('howto-screen').style.display='flex';renderHowTo();}
 function renderHowTo(){const steps=HOW[lang],s=steps[htStep];
   set('ht-icon',stepIcon[s.ic]);txt('ht-title',s.t);txt('ht-text',s.x);
@@ -816,7 +845,20 @@ function renderHowTo(){const steps=HOW[lang],s=steps[htStep];
   txt('ht-skip',lang==='es'?'Saltar':'Skip');}
 function htNext(){if(htStep<HOW[lang].length-1){htStep++;renderHowTo();}else finishHowTo();}
 function htPrev(){if(htStep>0){htStep--;renderHowTo();}}
-function finishHowTo(){track('howto_done');$('howto-screen').style.display='none';enterApp();}
+function finishHowTo(){track('howto_done');showWelcomeGate();}
+
+/* ═══ WELCOME GATE SCREEN ═══ */
+function showWelcomeGate(){
+  $('howto-screen').style.display='none';
+  $('welcome-gate').style.display='flex';
+  txt('wg-title', lang==='es'?'¡Bienvenido!':'Welcome!');
+  txt('wg-text', lang==='es'?'Tu perfil está listo. Comienza tu primer registro de reflexión de 30 días esta noche.':'Your profile is ready. Start your first 30-day reflection log tonight.');
+  txt('wg-btn', lang==='es'?'Iniciar reporte de hoy':"Start tonight's report");
+}
+function enterAppFromGate(){
+  $('welcome-gate').style.display='none';
+  enterApp();
+}
 
 function p(v,max){return Math.round(v/max*100);}
 function $(id){return document.getElementById(id);}
@@ -840,7 +882,7 @@ function applyAuthLang(){const t=T[lang];
 
 /* ═══ AUTH ═══ */
 let authMode='signin';
-function showAuth(){track('view_auth');$('splash').style.display='none';$('main-app').style.display='none';$('howto-screen').style.display='none';
+function showAuth(){track('view_auth');$('splash').style.display='none';$('main-app').style.display='none';$('howto-screen').style.display='none';$('welcome-gate').style.display='none';
   $('auth-screen').style.display='flex';applyAuthLang();
   setAuthMode(Object.keys(getAccounts()).length?'signin':'signup');}
 function setAuthMode(m,quiet){authMode=m;const t=T[lang],up=(m==='signup');
@@ -879,7 +921,7 @@ function toggleShare(){const accts=getAccounts(),em=currentEmail();if(!accts[em]
 
 /* ═══ APP ENTRY ═══ */
 function enterApp(){
-  $('splash').style.display='none';$('auth-screen').style.display='none';$('howto-screen').style.display='none';$('main-app').style.display='flex';
+  $('splash').style.display='none';$('auth-screen').style.display='none';$('howto-screen').style.display='none';$('welcome-gate').style.display='none';$('main-app').style.display='flex';
   track('app_open');loadReflectionsIntoUI();loadVisits();applyLang();
 }
 function loadReflectionsIntoUI(){
@@ -976,6 +1018,7 @@ function applyLang(){const t=T[lang];
   txt('t-p-dob',t.dob_short);
   txt('t-settings-privacy',t.privacyHead);
   set('t-local-warn',t.localWarn);
+  txt('t-signout-btn',t.signOut);
 
   // Handoff document translations
   txt('t-ho-back',t.back);
@@ -1297,6 +1340,7 @@ const T={
     localWarn:'<strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.',
     handoffBtn:'Prepare hand-off report',printBtn:'Print / Save PDF',hoTag:'Social-Communication Check-in Summary',hoNotesTitle:'Parent Notes (Recent)',
     hoFoot:'erli Guide is an experimental reflection log. It does not provide medical diagnoses or replace professional evaluations.',
+    signOut:'Sign out',
     sliders:[{name:'Social connection',desc:'Eye contact, engagement, shared presence',lo:'LOW',hi:'HIGH'},{name:'Communication',desc:'Response to name, sounds, words',lo:'LOW',hi:'HIGH'},{name:'Shared attention',desc:'Pointing, showing, joint focus',lo:'LOW',hi:'HIGH'},{name:'Emotional engagement',desc:'Smiling, warmth, interaction',lo:'LOW',hi:'HIGH'},{name:'Repetitive behaviors',desc:'Repetitive or pattern-focused actions',lo:'LOW',hi:'HIGH'},{name:'Daily word count',desc:'Approximate number of different words today',lo:'0',hi:'10+'}],
     wordCtx:{0:'No words noted — quiet days are valid data too.',1:'One consistent word is meaningful.',2:'A couple of reliable words.',3:'Small but growing. Used intentionally?',4:'Building steadily.',5:'Around 5 words — solid for this stage.',6:'Good range. New words appearing?',7:'Strong day. Words with gestures?',8:'Rich vocabulary day. Two-word combos?',9:'Excellent — note variety.',10:'Ten distinct words — strong communicator day.',11:'Highly expressive! Note new combinations.'},
     trends:[{name:'Social connection'},{name:'Communication'},{name:'Shared attention'},{name:'Emotional engagement'},{name:'Repetitive behaviors'},{name:'Daily word count'}],
@@ -1342,6 +1386,7 @@ const T={
     localWarn:'<strong>Almacenamiento Local.</strong> Tus reflexiones se guardan seguras solo en este navegador. Instala esta app en tu Pantalla de Inicio para evitar que iOS borre tus registros automáticamente.',
     handoffBtn:'Preparar reporte impreso',printBtn:'Imprimir / Guardar PDF',hoTag:'Resumen de la Consulta de Comunicación Social',hoNotesTitle:'Notas de los Padres (Recientes)',
     hoFoot:'erli Guide es un registro de reflexión experimental. No proporciona diagnósticos médicos ni reemplaza las evaluaciones profesionales.',
+    signOut:'Cerrar sesión',
     sliders:[{name:'Conexión social',desc:'Contacto visual, presencia compartida',lo:'BAJO',hi:'ALTO'},{name:'Comunicación',desc:'Respuesta al nombre, sonidos, palabras',lo:'BAJO',hi:'ALTO'},{name:'Atención compartida',desc:'Señalar, mostrar, enfoque conjunto',lo:'BAJO',hi:'ALTO'},{name:'Compromiso emocional',desc:'Sonrisas, calidez, interacción',lo:'BAJO',hi:'ALTO'},{name:'Conductas repetitivas',desc:'Acciones repetitivas o enfocadas en patrones',lo:'BAJO',hi:'ALTO'},{name:'Conteo de palabras',desc:'Número aproximado de palabras distintas hoy',lo:'0',hi:'10+'}],
     wordCtx:{0:'Sin palabras hoy — los días quietos también son datos válidos.',1:'Una palabra consistente es significativa.',2:'Un par de palabras confiables.',3:'Pequeño pero creciendo.',4:'Creciendo de a poco.',5:'Unas 5 palabras — sólido para esta etapa.',6:'Buen rango. ¿Palabras nuevas?',7:'Buen día. ¿Palabras con gestos?',8:'Día rico en vocabulario.',9:'Excelente — nota la variedad.',10:'¡Gran comunicador hoy!',11:'¡Muy expresivo! Nota nuevas combinaciones.'},
     trends:[{name:'Conexión social'},{name:'Comunicación'},{name:'Atención compartida'},{name:'Compromiso emocional'},{name:'Conductas repetitivas'},{name:'Conteo de palabras'}],
