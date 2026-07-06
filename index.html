@@ -19,36 +19,27 @@ html,body{
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  background: #e8e8f8;
+  background: #fff; /* Fondo limpio para app fluida */
   display: flex;
   justify-content: center;
   align-items: flex-start;
   font-family: var(--font);
   overflow: hidden;
+  width: 100%;
 }
 
 .shell{
-  width: 100%;
-  max-width: 100%; /* Full horizontal span on mobile */
+  width: 100%; /* Ocupa el 100% del ancho horizontal de cualquier dispositivo */
   height: 100vh;
   height: 100dvh;
   background: #fff;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 60px rgba(43,43,245,0.15);
   display: flex;
   flex-direction: column;
 }
 
-@media(min-width:480px){
-  body{align-items:center;padding:20px 0 40px;}
-  .shell{
-    max-width: 440px; /* Elegant desktop shell container */
-    border: 3px solid var(--eb);
-    border-radius: 44px;
-    height: min(884px, 94vh);
-  }
-}
+/* Removidos los marcos redondeados y restricciones de ancho en pantallas de escritorio */
 
 .partner-strip{
   background: linear-gradient(135deg,var(--eb),#5555ff);
@@ -69,6 +60,7 @@ html,body{
   overflow-y: auto; /* Permite scroll vertical solo aquí adentro */
   -webkit-overflow-scrolling: touch;
   position: relative;
+  width: 100%;
 }
 
 #splash{
@@ -81,6 +73,7 @@ html,body{
   padding: 48px 32px;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 .splash-logo-wrap{margin-bottom:28px;animation:floatLogo 3s ease-in-out infinite;}
 @keyframes floatLogo{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
@@ -101,6 +94,7 @@ html,body{
   background: #fff;
   flex: 1;
   overflow-y: auto;
+  width: 100%;
 }
 .auth-logo{margin-bottom:12px;}
 .auth-h{font-size:21px;font-weight:900;color:var(--eb);margin-bottom:4px;}
@@ -190,9 +184,6 @@ html,body{
 .vb-days{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:9px;padding:4px 10px;white-space:nowrap;}
 .vb-days.none{background:var(--muted);}.vb-days.soon{background:#e24b4a;}
 
-.nav-tabs{display:flex;border-bottom:2px solid var(--sub);background:#fff;margin-top:10px;flex-shrink:0;}
-.ntab{flex:1;padding:10px 0;font-size:11px;font-weight:900;color:var(--muted);text-align:center;cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:3px solid transparent;margin-bottom:-2px;}
-.ntab.active{color:var(--eb);border-bottom-color:var(--eb);}
 .screen{display:none; padding-bottom: 24px; padding-top: 10px;}
 .screen.active{display:block;}
 
@@ -237,6 +228,8 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rcbtn.pri{background:var(--eb);border-color:var(--eb);color:#fff;}
 .save-btn{margin:6px 14px 12px;display:block;width:calc(100% - 28px);padding:14px;background:var(--eb);color:#fff;border:none;border-radius:22px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
 .save-btn:active{transform:scale(.97);}
+
+/* PÁGINA DE CONFIRMACIÓN */
 .success-msg{display:none;text-align:center;padding:32px 24px;border:2.5px solid var(--eb);border-radius:22px;background:#fff;margin:10px 14px 20px;}
 .success-chk{width:52px;height:52px;border:2.5px solid var(--eb);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
 
@@ -728,7 +721,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
     </div>
   </div>
 
-  <!-- FIXED BOTTOM NAVIGATION BAR -->
   <div class="nav-bar">
     <button class="nv on" id="nv-reflect" onclick="switchNav('reflect',this)">
       <div class="nv-icon">
