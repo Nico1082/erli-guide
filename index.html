@@ -137,7 +137,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rcbtn.pri{background:var(--eb);border-color:var(--eb);color:#fff;}
 .save-btn{margin:6px 14px 12px;display:block;width:calc(100% - 28px);padding:14px;background:var(--eb);color:#fff;border:none;border-radius:22px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
 .save-btn:active{transform:scale(.97);}
-.success-msg{display:none;text-align:center;padding:24px 20px 12px;}
+.success-msg{display:none;text-align:center;padding:32px 24px;border:2.5px solid var(--eb);border-radius:22px;background:#fff;margin:0 14px 12px;}
 .success-chk{width:52px;height:52px;border:2.5px solid var(--eb);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
 .ti{margin:0 14px 9px;border:2.5px solid var(--eb);border-radius:20px;padding:10px 14px 11px;background:#fff;}
 .ti-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
@@ -395,40 +395,52 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 
     <!-- REFLECT SCREEN -->
     <div id="tab-reflect" class="screen active">
-      <div class="sec-head" id="t-how">How did today feel?</div>
-      <div id="sliders-container"></div>
-      <div class="note-card">
-        <div class="note-top">
-          <div class="note-lbl" id="t-note-lbl">Anything worth noting?</div>
-          <div class="mtabs">
-            <button class="mtab on" id="t-type-btn" onclick="switchNote('text',this)">Type</button>
-            <button class="mtab" id="t-rec-btn" onclick="switchNote('voice',this)">Record</button>
+      <!-- SLIDERS CONTAINER (Will be hidden when saved) -->
+      <div id="reflection-fields-wrapper">
+        <div class="sec-head" id="t-how">How did today feel?</div>
+        <div id="sliders-container"></div>
+        <div class="note-card">
+          <div class="note-top">
+            <div class="note-lbl" id="t-note-lbl">Anything worth noting?</div>
+            <div class="mtabs">
+              <button class="mtab on" id="t-type-btn" onclick="switchNote('text',this)">Type</button>
+              <button class="mtab" id="t-rec-btn" onclick="switchNote('voice',this)">Record</button>
+            </div>
+          </div>
+          <div class="tp" id="tp"><textarea class="ta" rows="3" id="note-ta" placeholder="A moment, a change, something that stood out..."></textarea></div>
+          <div class="vp" id="vp-note">
+            <div class="rec-area">
+              <button class="rec-btn" id="rec-btn" onclick="toggleRec()">
+                <div class="pring"></div>
+                <svg id="mic-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0"></path><line x1="12" y1="19" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg>
+                <svg id="stop-ic" width="20" height="20" viewBox="0 0 24 24" fill="#e24b4a" style="display:none"><rect x="5" y="5" width="14" height="14" rx="2"></rect></svg>
+              </button>
+              <div class="waveform" id="wf" style="opacity:0"></div>
+              <div class="rec-st" id="rs">Tap to start recording</div>
+              <div class="rec-tm" id="rt" style="visibility:hidden">0:00</div>
+            </div>
+            <div class="tbox"><span class="te-ph" id="te">Your voice note will appear here</span><span id="tt" style="display:none"></span></div>
+            <div class="rcctrls" id="rc" style="opacity:.3;pointer-events:none">
+              <button class="rcbtn" id="t-discard" onclick="discardRec()">Discard</button>
+              <button class="rcbtn pri" id="t-use" onclick="useRec()">Use this note</button>
+            </div>
           </div>
         </div>
-        <div class="tp" id="tp"><textarea class="ta" rows="3" id="note-ta" placeholder="A moment, a change, something that stood out..."></textarea></div>
-        <div class="vp" id="vp-note">
-          <div class="rec-area">
-            <button class="rec-btn" id="rec-btn" onclick="toggleRec()">
-              <div class="pring"></div>
-              <svg id="mic-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"></rect><path d="M5 10a7 7 0 0 0 14 0"></path><line x1="12" y1="19" x2="12" y2="22"></line><line x1="8" y1="22" x2="16" y2="22"></line></svg>
-              <svg id="stop-ic" width="20" height="20" viewBox="0 0 24 24" fill="#e24b4a" style="display:none"><rect x="5" y="5" width="14" height="14" rx="2"></rect></svg>
-            </button>
-            <div class="waveform" id="wf" style="opacity:0"></div>
-            <div class="rec-st" id="rs">Tap to start recording</div>
-            <div class="rec-tm" id="rt" style="visibility:hidden">0:00</div>
-          </div>
-          <div class="tbox"><span class="te-ph" id="te">Your voice note will appear here</span><span id="tt" style="display:none"></span></div>
-          <div class="rcctrls" id="rc" style="opacity:.3;pointer-events:none">
-            <button class="rcbtn" id="t-discard" onclick="discardRec()">Discard</button>
-            <button class="rcbtn pri" id="t-use" onclick="useRec()">Use this note</button>
-          </div>
-        </div>
+        <button class="save-btn" id="save-btn" onclick="doSave()">Save tonight's reflection</button>
       </div>
-      <button class="save-btn" id="save-btn" onclick="doSave()">Save tonight's reflection</button>
+
+      <!-- SUCCESS CONFIRMATION SCREEN -->
       <div class="success-msg" id="success-msg">
-        <div class="success-chk"><svg width="24" height="24" viewBox="0 0 28 28" fill="none"><path d="M6 14l6 6 10-12" stroke="#2B2BF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
-        <div style="font-size:16px;font-weight:900;color:#2B2BF5;margin-bottom:6px" id="t-saved-title">Reflection saved</div>
-        <div style="font-size:11px;color:#aab;line-height:1.7;font-family:var(--font-body)" id="t-saved-sub">Small data, big picture.<br>See you tomorrow.</div>
+        <div class="success-chk">
+          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+            <path d="M6 14l6 6 10-12" stroke="#2B2BF5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div style="font-size:18px; font-weight:900; color:#2B2BF5; margin-bottom:8px" id="t-saved-title">Reflection saved</div>
+        <div style="font-size:12px; color:#556; line-height:1.7; font-family:var(--font-body); margin-bottom: 24px;" id="t-saved-sub">Small data, big picture.<br>See you tomorrow.</div>
+        
+        <!-- UPDATE REFLECTION BUTTON -->
+        <button class="abtn" id="update-btn" onclick="editReflection()" style="background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;">Update reflection</button>
       </div>
     </div>
 
@@ -574,7 +586,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 <script>
 const EB='#2B2BF5',EC='#00CFFF';
 
-/* ═══ CONFIG: paste your analytics endpoint here later (deploy step). Leave '' to keep everything local. ═══ */
+/* ═══ CONFIG: paste your analytics endpoint here. Leave '' to keep everything local. ═══ */
 const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxTcy_n3Lu6NYEW9Z3Cw8L1Zf5UnMwD7J4KONEBfi67z0-ezF3G1A_R78COYvB4vSTK/exec';
 const APP_VERSION = '2025-07-06';
 
@@ -729,9 +741,31 @@ function loadReflectionsIntoUI(){
   const all=getReflections();$('entries-n').textContent=all.length;$('streak-n').textContent=computeStreak();
   const m=childMonths();$('age-n').textContent=(m!=null)?m:'—';
   const today=new Date().toISOString().split('T')[0];const e=all.find(r=>r.date===today);
-  if(e){[e.social,e.communication,e.shared_attention,e.emotional,e.repetitive,e.words].forEach((val,i)=>{
+  
+  if(e){
+    [e.social,e.communication,e.shared_attention,e.emotional,e.repetitive,e.words].forEach((val,i)=>{
       const sl=$('sl-'+i);if(val!=null&&sl){sl.value=val;i===5?upW(val):upS(i,sl,10);}});
-    if(e.note)$('note-ta').value=e.note;txt('save-btn',T[lang].updateBtn);}
+    if(e.note)$('note-ta').value=e.note;
+    
+    // Hide sliders and show thank you confirmation screen
+    $('reflection-fields-wrapper').style.display = 'none';
+    $('success-msg').style.display = 'block';
+  } else {
+    // Show sliders and hide thank you confirmation screen
+    $('reflection-fields-wrapper').style.display = 'block';
+    $('success-msg').style.display = 'none';
+    
+    // Reset values to defaults
+    SLIDER_ICONS.forEach((_, i) => {
+      const sl = $('sl-'+i);
+      if (sl) {
+        sl.value = SLIDER_DEFS[i];
+        i === 5 ? upW(SLIDER_DEFS[i]) : upS(i, sl, 10);
+      }
+    });
+    $('note-ta').value = '';
+    discardRec();
+  }
 }
 function computeStreak(){const all=getReflections();if(!all.length)return 0;
   const dates=new Set(all.map(r=>r.date));let streak=0,d=new Date();
@@ -765,8 +799,11 @@ function applyLang(){const t=T[lang];
   txt('nav-reflect-lbl',t.tabReflect);txt('nav-trends-lbl',t.tabTrends);txt('nav-report-lbl',t.tabReport);
   txt('t-note-lbl',t.noteLbl);txt('t-type-btn',t.typBtn);txt('t-rec-btn',t.recBtn);attr('note-ta','placeholder',t.notePh);
   txt('rs',isRec?t.recStop:t.recStart);txt('te',t.recPh);txt('t-discard',t.discard);txt('t-use',t.useNote);
+  
   const todayHas=getReflections().some(r=>r.date===new Date().toISOString().split('T')[0]);
   txt('save-btn',todayHas?t.updateBtn:t.saveBtn);
+  txt('update-btn',t.updateBtn);
+  
   txt('t-saved-title',t.savedTitle);set('t-saved-sub',t.savedSub);
   txt('t-7days',t.days7);txt('t-patterns',t.patterns);
   txt('t-30day',t.badge30);set('t-rpt-title',t.rptTitle);set('t-disc',t.disc);
@@ -827,8 +864,19 @@ function doSave(){
     emotional:+$('sl-3').value,repetitive:+$('sl-4').value,words:+$('sl-5').value,note:$('note-ta').value||'',ageMonths:childMonths()});
   track('reflection_saved',{ageBand:ageBand()});
   $('entries-n').textContent=getReflections().length;$('streak-n').textContent=computeStreak();
-  $('save-btn').style.display='none';$('success-msg').style.display='block';
+  
+  // Hide sliders and show confirmation block
+  $('reflection-fields-wrapper').style.display='none';
+  $('success-msg').style.display='block';
 }
+
+function editReflection(){
+  track('edit_reflection_tapped');
+  // Slide sliders back on screen and hide confirmation block
+  $('reflection-fields-wrapper').style.display='block';
+  $('success-msg').style.display='none';
+}
+
 function loadVisits(){visits=loadArr(VIS);updateCountdown();updateBanner();renderList();}
 
 /* ═══ DYNAMIC SEVEN-DAY INSIGHTS ═══ */
@@ -1066,7 +1114,6 @@ const T={
     back:'Back',visitHd:'Pediatric visit',vsTitle:'Visit <span>scheduler</span>',vsSub:'Schedule, sync & stay prepared',
     nextVisit:'Next visit',noVisit:'No visit scheduled',daysAway:'days away',
     schedVisits:'Scheduled visits',noVisitsYet:'No visits yet — add one below.',
-    reminders:'Visit reminders',remSub:'3 days and 1 day before',
     privacyHead:'Data & privacy',shareTitle:'Share usage data',shareSub:'Name, email & usage times · off anytime',
     addCal:'Add to calendar',addManual:'Add manually',anyCal:'Any calendar',
     scheduleVisit:'Schedule a visit',visitDate:'Visit date',timeLbl:'Time',durLbl:'Duration',
@@ -1112,7 +1159,6 @@ const T={
     back:'Regresar',visitHd:'Visita pediátrica',vsTitle:'Agenda tu <span>visita</span>',vsSub:'Programa, sincroniza y prepárate',
     nextVisit:'Próxima visita',noVisit:'Sin visita programada',daysAway:'días restantes',
     schedVisits:'Visitas programadas',noVisitsYet:'Sin visitas aún — agrega una abajo.',
-    reminders:'Recordatorios de visita',remSub:'3 días y 1 día antes',
     privacyHead:'Datos y privacidad',shareTitle:'Compartir datos de uso',shareSub:'Nombre, correo y horarios · desactiva cuando quieras',
     addCal:'Agregar al calendario',addManual:'Agregar manualmente',anyCal:'Cualquier calendario',
     scheduleVisit:'Programar una visita',visitDate:'Fecha de visita',timeLbl:'Hora',durLbl:'Duración',
