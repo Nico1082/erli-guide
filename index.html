@@ -61,11 +61,12 @@ html,body{
 .ps-text{font-size:9px;font-weight:900;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.08em;}
 .ps-badge{font-size:9px;font-weight:900;color:var(--ec);background:rgba(0,207,255,0.15);border:1px solid rgba(0,207,255,0.4);border-radius:6px;padding:2px 8px;}
 
+/* CONTENEDOR PRINCIPAL CON SCROLL INDEPENDIENTE */
 #main-container{
   flex: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: auto; /* Permite scroll vertical solo aquí adentro */
   -webkit-overflow-scrolling: touch;
   position: relative;
 }
@@ -189,6 +190,9 @@ html,body{
 .vb-days{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:9px;padding:4px 10px;white-space:nowrap;}
 .vb-days.none{background:var(--muted);}.vb-days.soon{background:#e24b4a;}
 
+.nav-tabs{display:flex;border-bottom:2px solid var(--sub);background:#fff;margin-top:10px;flex-shrink:0;}
+.ntab{flex:1;padding:10px 0;font-size:11px;font-weight:900;color:var(--muted);text-align:center;cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:3px solid transparent;margin-bottom:-2px;}
+.ntab.active{color:var(--eb);border-bottom-color:var(--eb);}
 .screen{display:none; padding-bottom: 24px; padding-top: 10px;}
 .screen.active{display:block;}
 
@@ -313,7 +317,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .uc-isub{font-size:9px;color:var(--muted);font-weight:700;margin-top:1px;}
 .uc-tag{font-size:9px;font-weight:900;color:var(--muted);background:var(--sub);padding:3px 7px;border-radius:7px;}
 .uc-tag.soon{color:#e24b4a;background:#fff0f0;}
-.rem-card{margin:10px 14px 12px;border:2px solid #dde;border-radius:18px;padding:10px 13px;background:#fff;display:flex;align-items:center;justify-content:space-between;}
+.rem-card{margin:10px 14px 12px;border:2.5px solid var(--eb);border-radius:18px;padding:10px 13px;background:#fff;display:flex;align-items:center;justify-content:space-between;}
 .rem-left{display:flex;align-items:center;gap:8px;}
 .rem-icon{width:30px;height:30px;border-radius:9px;background:var(--sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rem-title{font-size:11px;font-weight:900;color:var(--eb);}
@@ -617,7 +621,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <button class="save-btn" style="margin-top:0px; background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;" id="t-sched-btn" onclick="openVisitScreen()">Schedule pediatric visit</button>
     </div>
 
-    <!-- VIEW: VISIT SCHEDULER -->
+    <!-- VIEW: VISIT SCHEDULER (Moved inside scroll box) -->
     <div id="visit-screen" class="visit-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
@@ -662,7 +666,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <div style="height:20px"></div>
     </div>
 
-    <!-- VIEW: SETTINGS -->
+    <!-- VIEW: SETTINGS (Moved inside scroll box) -->
     <div id="settings-screen" class="settings-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
@@ -724,6 +728,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
     </div>
   </div>
 
+  <!-- FIXED BOTTOM NAVIGATION BAR -->
   <div class="nav-bar">
     <button class="nv on" id="nv-reflect" onclick="switchNav('reflect',this)">
       <div class="nv-icon">
@@ -1162,11 +1167,19 @@ function rebuildReport(){const rl=$('report-list');if(!rl)return;rl.innerHTML=''
 /* ═══ VISITS ═══ */
 function openVisitScreen(){
   track('view_visit_scheduler');
-  $('main-screens').style.display='none';
+  // Ocultamos los screens de pestañas principales
+  ['tab-reflect','tab-trends','tab-report','settings-screen'].forEach(id=>{
+    const el=$(id); if(el) el.classList.remove('active');
+  });
   $('visit-screen').classList.add('active');
   $('main-container').scrollTo({top: 0, behavior: 'smooth'});
 }
-function closeVisitScreen(){$('visit-screen').classList.remove('active');$('main-screens').style.display='';}
+function closeVisitScreen(){
+  $('visit-screen').classList.remove('active');
+  // Re-activamos la pantalla seleccionada en la barra de navegación inferior
+  const activeNav = document.querySelector('.nv.on').id.replace('nv-', 'tab-');
+  $(activeNav).classList.add('active');
+}
 function daysUntil(d,t){return Math.ceil((new Date(d+'T'+t)-new Date())/(864e5));}
 function fmtDate(d){return new Date(d+'T12:00').toLocaleDateString(lang==='es'?'es-ES':'en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
 function fmtTime(t){const[h,m]=t.split(':'),hr=parseInt(h),ampm=hr>=12?'PM':'AM',h12=hr%12||12;return`${h12}:${m} ${ampm}`;}
@@ -1209,11 +1222,19 @@ function syncCal(type){const future=visits.filter(v=>daysUntil(v.date,v.time)>=0
 /* ═══ SETTINGS NAVIGATION ═══ */
 function openSettingsScreen(){
   track('view_settings');
-  $('main-screens').style.display='none';
+  // Ocultamos los screens de pestañas principales
+  ['tab-reflect','tab-trends','tab-report','visit-screen'].forEach(id=>{
+    const el=$(id); if(el) el.classList.remove('active');
+  });
   $('settings-screen').classList.add('active');
   $('main-container').scrollTo({top: 0, behavior: 'smooth'});
 }
-function closeSettingsScreen(){$('settings-screen').classList.remove('active');$('main-screens').style.display='';}
+function closeSettingsScreen(){
+  $('settings-screen').classList.remove('active');
+  // Re-activamos la pantalla seleccionada en la barra de navegación inferior
+  const activeNav = document.querySelector('.nv.on').id.replace('nv-', 'tab-');
+  $(activeNav).classList.add('active');
+}
 
 /* ═══ PEDIATRICIAN HANDOFF DRAWER ═══ */
 function openHandoff(){
