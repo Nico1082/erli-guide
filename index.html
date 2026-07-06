@@ -14,14 +14,73 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{--eb:#2B2BF5;--ec:#00CFFF;--muted:#8899ee;--sub:#eeeeff;--font:'Nunito',sans-serif;--font-body:'Nunito Sans',sans-serif;}
-html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;display:flex;justify-content:center;align-items:flex-start;font-family:var(--font);}
-.shell{width:100%;max-width:440px;min-height:100vh;min-height:100dvh;background:#fff;position:relative;overflow:hidden;box-shadow:0 0 60px rgba(43,43,245,0.15);display:flex;flex-direction:column;}
-@media(min-width:480px){body{align-items:center;padding:20px 0 40px;}.shell{border:3px solid var(--eb);border-radius:44px;min-height:auto;height:min(884px,94vh);overflow-y:auto;}}
-.partner-strip{background:linear-gradient(135deg,var(--eb),#5555ff);padding:max(8px,env(safe-area-inset-top)) 20px 8px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+
+html,body{
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #e8e8f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: var(--font);
+  overflow: hidden; /* Evita scroll en el navegador principal */
+}
+
+.shell{
+  width: 100%;
+  max-width: 440px;
+  height: 100vh;
+  height: 100dvh;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(43,43,245,0.15);
+  display: flex;
+  flex-direction: column; /* Apila cabezal, cuerpo y footer */
+}
+
+@media(min-width:480px){
+  body{align-items:center;padding:20px 0 40px;}
+  .shell{
+    border: 3px solid var(--eb);
+    border-radius: 44px;
+    height: min(884px, 94vh);
+  }
+}
+
+.partner-strip{
+  background: linear-gradient(135deg,var(--eb),#5555ff);
+  padding: max(8px,env(safe-area-inset-top)) 20px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
 .ps-text{font-size:9px;font-weight:900;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.08em;}
 .ps-badge{font-size:9px;font-weight:900;color:var(--ec);background:rgba(0,207,255,0.15);border:1px solid rgba(0,207,255,0.4);border-radius:6px;padding:2px 8px;}
-#main-container{flex:1;display:flex;flex-direction:column;overflow-y:auto;position:relative;}
-#splash{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80vh;flex:1;background:#fff;padding:48px 32px;position:relative;overflow:hidden;}
+
+/* CONTENEDOR PRINCIPAL CON SCROLL INDEPENDIENTE */
+#main-container{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Permite scroll vertical solo aquí adentro */
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+#splash{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: #fff;
+  padding: 48px 32px;
+  position: relative;
+  overflow: hidden;
+}
 .splash-logo-wrap{margin-bottom:28px;animation:floatLogo 3s ease-in-out infinite;}
 @keyframes floatLogo{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
 .splash-wordmark{font-size:26px;font-weight:900;color:var(--eb);letter-spacing:-.5px;}
@@ -32,7 +91,16 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .splash-enter{margin-top:28px;padding:14px 36px;background:var(--eb);color:#fff;border:none;border-radius:50px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 8px 24px rgba(43,43,245,0.3);}
 .splash-enter:active{transform:scale(.96);}
 .splash-badge{margin-top:20px;font-size:10px;font-weight:700;color:var(--muted);background:#f0f0ff;border-radius:20px;padding:5px 14px;text-align:center;line-height:1.5;}
-#auth-screen{display:none;flex-direction:column;align-items:center;padding:30px 26px 40px;background:#fff;flex:1;overflow-y:auto;}
+
+#auth-screen{
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 26px 40px;
+  background: #fff;
+  flex: 1;
+  overflow-y: auto;
+}
 .auth-logo{margin-bottom:12px;}
 .auth-h{font-size:21px;font-weight:900;color:var(--eb);margin-bottom:4px;}
 .auth-sub{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:20px;text-align:center;line-height:1.5;}
@@ -53,6 +121,7 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .aerr{display:none;background:#fff0f0;border:1px solid #ffaaaa;border-radius:10px;padding:9px 12px;font-size:11px;color:#cc3333;margin-bottom:12px;width:100%;font-family:var(--font-body);}
 .aerr.ok{background:#efffef;border-color:#44cc88;color:#226633;}
 .afoot{margin-top:20px;font-size:10px;color:#aab;text-align:center;line-height:1.7;font-family:var(--font-body);}
+
 #howto-screen{display:none;flex-direction:column;min-height:88vh;min-height:88dvh;background:#fff;flex:1;}
 .ht-skiptop{display:flex;justify-content:flex-end;padding:14px 20px 0;}
 .ht-skiptop button{background:none;border:none;color:var(--muted);font-size:12px;font-weight:900;cursor:pointer;font-family:var(--font);}
@@ -67,7 +136,9 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .ht-nav{display:flex;gap:10px;padding:0 26px calc(30px + env(safe-area-inset-bottom));}
 .ht-back{padding:14px 20px;border:2px solid var(--sub);background:#fff;border-radius:16px;font-family:var(--font);font-size:13px;font-weight:900;color:var(--muted);cursor:pointer;}
 .ht-next{flex:1;padding:14px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
-#main-app{display:none;flex-direction:column;flex:1;}
+
+#main-app{display:none;flex-direction:column;flex:1;overflow:hidden;} /* Corta scrolls externos */
+
 .topbar{background:#fff;padding:12px 20px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--sub);position:sticky;top:0;z-index:10;flex-shrink:0;}
 .topbar-logo{font-size:16px;font-weight:900;color:var(--eb);cursor:pointer;}
 .topbar-logo span{color:var(--ec);}
@@ -76,6 +147,7 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .lang-toggle{display:flex;border:2px solid var(--eb);border-radius:10px;overflow:hidden;}
 .lang-btn{padding:3px 10px;font-size:10px;font-weight:900;border:none;background:transparent;cursor:pointer;font-family:var(--font);color:var(--eb);}
 .lang-btn.on{background:var(--eb);color:#fff;}
+
 .hero{background:var(--eb);padding:14px 20px 16px;display:flex;align-items:center;gap:13px;flex-shrink:0;}
 .eg-mark{width:48px;height:48px;border-radius:15px;flex-shrink:0;overflow:hidden;}
 .hero-title{font-size:17px;font-weight:900;color:#fff;letter-spacing:-.4px;}
@@ -85,6 +157,7 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .schip{flex:1;background:rgba(255,255,255,0.12);border:1.5px solid rgba(255,255,255,0.2);border-radius:12px;padding:7px 4px;text-align:center;}
 .sn{font-size:17px;font-weight:900;color:#fff;}
 .sl{font-size:9px;color:rgba(255,255,255,0.55);margin-top:1px;font-weight:700;}
+
 .visit-banner{margin:10px 14px 0;border:2.5px solid var(--eb);border-radius:18px;padding:10px 13px;background:#fff;display:flex;align-items:center;justify-content:space-between;cursor:pointer;flex-shrink:0;}
 .vb-left{display:flex;align-items:center;gap:9px;}
 .vb-icon{width:32px;height:32px;border-radius:10px;background:var(--sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -92,10 +165,11 @@ html,body{height:100%;min-height:100vh;min-height:100dvh;background:#e8e8f8;disp
 .vb-sub{font-size:10px;color:var(--muted);font-weight:700;margin-top:1px;}
 .vb-days{font-size:11px;font-weight:900;color:#fff;background:var(--eb);border-radius:9px;padding:4px 10px;white-space:nowrap;}
 .vb-days.none{background:var(--muted);}.vb-days.soon{background:#e24b4a;}
-.nav-tabs{display:flex;border-bottom:2px solid var(--sub);background:#fff;margin-top:10px;flex-shrink:0;}
-.ntab{flex:1;padding:10px 0;font-size:11px;font-weight:900;color:var(--muted);text-align:center;cursor:pointer;border:none;background:none;font-family:var(--font);border-bottom:3px solid transparent;margin-bottom:-2px;}
-.ntab.active{color:var(--eb);border-bottom-color:var(--eb);}
-.screen{display:none;}.screen.active{display:block;}
+
+/* PESTAÑAS REMOVIDAS DEL MEDIO, AHORA SON DECORATIVAS O SE LIMPIAN */
+.screen{display:none; padding-bottom: 24px; padding-top: 10px;}
+.screen.active{display:block;}
+
 .sec-head{padding:12px 20px 5px;font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
 .sl-card{margin:0 14px 10px;border:2.5px solid var(--eb);border-radius:22px;padding:14px 16px 13px;background:#fff;}
 .sl-name{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:900;color:var(--eb);margin-bottom:12px;letter-spacing:-.3px;}
@@ -137,8 +211,11 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rcbtn.pri{background:var(--eb);border-color:var(--eb);color:#fff;}
 .save-btn{margin:6px 14px 12px;display:block;width:calc(100% - 28px);padding:14px;background:var(--eb);color:#fff;border:none;border-radius:22px;font-family:var(--font);font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 4px 16px rgba(43,43,245,0.25);}
 .save-btn:active{transform:scale(.97);}
-.success-msg{display:none;text-align:center;padding:32px 24px;border:2.5px solid var(--eb);border-radius:22px;background:#fff;margin:0 14px 12px;}
+
+/* PÁGINA DE CONFIRMACIÓN (Ocupa el ancho nativo con diseño limpio) */
+.success-msg{display:none;text-align:center;padding:32px 24px;border:2.5px solid var(--eb);border-radius:22px;background:#fff;margin:10px 14px 20px;}
 .success-chk{width:52px;height:52px;border:2.5px solid var(--eb);border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;}
+
 .ti{margin:0 14px 9px;border:2.5px solid var(--eb);border-radius:20px;padding:10px 14px 11px;background:#fff;}
 .ti-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
 .ti-nm{font-size:12px;font-weight:900;color:var(--eb);}
@@ -147,6 +224,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .ti-bar{height:100%;border-radius:3px;background:linear-gradient(to right,var(--ec),var(--eb));transition:width .7s ease;}
 .ins{margin:0 14px 9px;border:2px solid var(--sub);border-radius:18px;padding:9px 13px;font-size:10px;color:#555;line-height:1.55;background:#f8f8ff;font-family:var(--font-body);}
 .ins strong{color:var(--eb);font-weight:900;}
+
 .rpt-hero{background:var(--eb);padding:14px 20px 16px;}
 .rpt-badge{display:inline-block;background:rgba(0,207,255,0.2);border:1px solid var(--ec);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:900;color:var(--ec);margin-bottom:5px;}
 .rpt-title{font-size:19px;font-weight:900;color:#fff;letter-spacing:-.4px;}
@@ -170,6 +248,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .q-item:last-child{border-bottom:none;padding-bottom:0;}
 .q-num{width:18px;height:18px;border-radius:6px;background:var(--eb);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;flex-shrink:0;margin-top:1px;}
 .q-txt{font-size:10px;color:#444;line-height:1.5;flex:1;font-family:var(--font-body);}
+
 .visit-screen{display:none;flex-direction:column;flex:1;overflow-y:auto;}
 .visit-screen.active{display:flex;}
 .vs-back-bar{background:#fff;padding:10px 20px 9px;display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--sub);flex-shrink:0;}
@@ -219,18 +298,62 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .rem-icon{width:30px;height:30px;border-radius:9px;background:var(--sub);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .rem-title{font-size:11px;font-weight:900;color:var(--eb);}
 .rem-sub{font-size:9px;color:var(--muted);font-weight:700;margin-top:1px;}
-.tgl-track{width:38px;height:21px;border-radius:11px;background:#dde;transition:background .2s;display:flex;align-items:center;padding:2px;cursor:pointer;flex-shrink:0;}
-.tgl-track.on{background:var(--eb);}
-.tgl-thumb{width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .2s;}
-.tgl-track.on .tgl-thumb{transform:translateX(17px);}
-.toast-ok{display:none;margin-bottom:9px;background:#efffef;border:1.5px solid #44cc88;border-radius:12px;padding:8px 11px;font-size:10px;font-weight:900;color:#226633;align-items:center;gap:6px;font-family:var(--font);}
-.toast-ok.show{display:flex;}
-.nav-bar{background:#fff;border-top:2px solid var(--sub);display:flex;padding:9px 0 max(13px, env(safe-area-inset-bottom));position:sticky;bottom:0;flex-shrink:0;}
-.nv{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:none;background:none;font-family:var(--font);}
-.nv-icon{width:30px;height:30px;border-radius:9px;background:var(--sub);display:flex;align-items:center;justify-content:center;}
-.nv.on .nv-icon{background:var(--eb);}
-.nv-lbl{font-size:9px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
-.nv.on .nv-lbl{color:var(--eb);}
+
+/* BARRA DE NAVEGACIÓN INFERIOR (ESTILO APP NATIVA) */
+.nav-bar{
+  background: #fff;
+  border-top: 2.5px solid var(--sub);
+  display: flex;
+  padding: 8px 0 max(10px, env(safe-area-inset-bottom)); /* Espacio inteligente para iPhone */
+  position: sticky;
+  bottom: 0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.nv{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: var(--font);
+}
+.nv-icon{
+  width: 46px;
+  height: 28px;
+  border-radius: 14px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s ease;
+}
+.nv.on .nv-icon{
+  background: var(--eb);
+}
+.nv-icon svg{
+  transition: stroke .2s, fill .2s;
+}
+.nv.on .nv-icon svg{
+  stroke: #fff;
+  fill: none;
+}
+.nv.on .nv-icon svg.fill{
+  fill: #fff;
+}
+.nv-lbl{
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+  letter-spacing: .02em;
+  transition: color .2s;
+}
+.nv.on .nv-lbl{
+  color: var(--eb);
+}
 .link-min{background:none;border:none;color:var(--eb);font-size:10px;font-weight:800;cursor:pointer;font-family:var(--font);text-decoration:underline;}
 .link-min.danger{color:#e24b4a;}
 
@@ -365,7 +488,8 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
     </div>
   </div>
 
-  <div id="main-screens">
+  <!-- SECCIONES INTERNAS CON SCROLL DENTRO DEL CONTENEDOR -->
+  <div id="main-container">
     <div class="hero">
       <div class="eg-mark">
         <img src="icon-512.png" alt="" width="48" height="48" style="display:block;">
@@ -375,11 +499,13 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
         <div class="hero-sub" id="hero-sub">1 minute nightly habit</div>
       </div>
     </div>
+    
     <div class="streak-bar">
       <div class="schip"><div class="sn" id="streak-n">0</div><div class="sl" id="t-streak">day streak</div></div>
       <div class="schip"><div class="sn" id="entries-n">0</div><div class="sl" id="t-entries">entries</div></div>
       <div class="schip"><div class="sn" id="age-n">—</div><div class="sl" id="t-agemo">months old</div></div>
     </div>
+    
     <div class="visit-banner" onclick="openVisitScreen()">
       <div class="vb-left">
         <div class="vb-icon"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="13" rx="2.5" stroke="#2B2BF5" stroke-width="1.5"></rect><line x1="2" y1="6" x2="14" y2="6" stroke="#2B2BF5" stroke-width="1.5"></line><line x1="5" y1="1" x2="5" y2="3.5" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></line><line x1="11" y1="1" x2="11" y2="3.5" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></line><circle cx="11" cy="11" r="2.5" fill="#2B2BF5"></circle></svg></div>
@@ -387,15 +513,9 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       </div>
       <div class="vb-days none" id="vb-days">+ Add</div>
     </div>
-    <div class="nav-tabs">
-      <button class="ntab active" id="tab-btn-reflect" onclick="showTab('reflect',this)">Reflect</button>
-      <button class="ntab" id="tab-btn-trends" onclick="showTab('trends',this)">Trends</button>
-      <button class="ntab" id="tab-btn-report" onclick="showTab('report',this)">Report</button>
-    </div>
 
-    <!-- REFLECT SCREEN -->
+    <!-- PESTAÑA: REFLECTION -->
     <div id="tab-reflect" class="screen active">
-      <!-- SLIDERS CONTAINER (Will be hidden when saved) -->
       <div id="reflection-fields-wrapper">
         <div class="sec-head" id="t-how">How did today feel?</div>
         <div id="sliders-container"></div>
@@ -429,7 +549,6 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
         <button class="save-btn" id="save-btn" onclick="doSave()">Save tonight's reflection</button>
       </div>
 
-      <!-- SUCCESS CONFIRMATION SCREEN -->
       <div class="success-msg" id="success-msg">
         <div class="success-chk">
           <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
@@ -438,24 +557,20 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
         </div>
         <div style="font-size:18px; font-weight:900; color:#2B2BF5; margin-bottom:8px" id="t-saved-title">Reflection saved</div>
         <div style="font-size:12px; color:#556; line-height:1.7; font-family:var(--font-body); margin-bottom: 24px;" id="t-saved-sub">Small data, big picture.<br>See you tomorrow.</div>
-        
-        <!-- UPDATE REFLECTION BUTTON -->
         <button class="abtn" id="update-btn" onclick="editReflection()" style="background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;">Update reflection</button>
       </div>
     </div>
 
-    <!-- TRENDS SCREEN -->
+    <!-- PESTAÑA: TRENDS -->
     <div id="tab-trends" class="screen">
       <div class="sec-head" id="t-7days">Last 7 days</div>
       <div id="trend-list"></div>
       <div class="sec-head" id="t-patterns">Patterns noticed</div>
       <div class="ins" id="ins1"></div>
-      <div class="ins" id="ins2"></div>
-      <div class="ins" id="ins3"></div>
       <div style="height:12px"></div>
     </div>
 
-    <!-- REPORT SCREEN -->
+    <!-- PESTAÑA: REPORT -->
     <div id="tab-report" class="screen">
       <div class="rpt-hero">
         <div class="rpt-badge" id="t-30day">30-day summary</div>
@@ -474,119 +589,149 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <button class="save-btn" style="margin-top:14px" id="t-handoff-btn" onclick="openHandoff()">Prepare hand-off report</button>
       <button class="save-btn" style="margin-top:0px; background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;" id="t-sched-btn" onclick="openVisitScreen()">Schedule pediatric visit</button>
     </div>
-  </div>
 
-  <!-- VISIT SCREEN -->
-  <div id="visit-screen" class="visit-screen">
-    <div class="vs-back-bar">
-      <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
-      <div style="font-size:13px;font-weight:900;color:var(--eb);" id="t-visit-hd">Pediatric visit</div>
-    </div>
-    <div class="vs-hero"><div class="vs-title" id="t-vs-title">Visit <span>scheduler</span></div><div class="vs-sub" id="t-vs-sub">Schedule, sync &amp; stay prepared</div></div>
-    <div class="cd-card">
-      <div class="cd-row">
-        <div><div class="cd-lbl" id="t-next-visit">Next visit</div><div class="cd-date" id="cd-date">No visit scheduled</div><div class="cd-time-txt" id="cd-time" style="display:none"></div></div>
-        <div id="cd-count" style="display:none;text-align:center;"><div class="cd-days" id="cd-days">—</div><div class="cd-days-lbl" id="t-days-away">days away</div></div>
+    <!-- VISTA: VISIT SCHEDULER -->
+    <div id="visit-screen" class="visit-screen">
+      <div class="vs-back-bar">
+        <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
+        <div style="font-size:13px;font-weight:900;color:var(--eb);" id="t-visit-hd">Pediatric visit</div>
       </div>
-      <div class="cd-prog" id="cd-prog" style="display:none"><div class="cd-bar" id="cd-bar" style="width:0%"></div></div>
-    </div>
-    <div class="uc-card"><div class="uc-hd"><div class="uc-title" id="t-sched-visits">Scheduled visits</div><div class="uc-badge" id="vc-badge">0 visits</div></div>
-      <div class="uc-body" id="vc-list"></div></div>
-    <div class="rem-card" style="margin-top:10px;">
-      <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1a5 5 0 0 1 5 5v3l1.5 2H1.5L3 9V6a5 5 0 0 1 5-5z" stroke="#2B2BF5" stroke-width="1.5" fill="none"></path><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
-        <div><div class="rem-title" id="t-reminders">Visit reminders</div><div class="rem-sub" id="t-rem-sub">3 days and 1 day before</div></div></div>
-      <div class="tgl-track on" id="rem-track" onclick="toggleRem()"><div class="tgl-thumb"></div></div>
-    </div>
-    <div class="sec-head" id="t-add-cal">Add to calendar</div>
-    <div class="sync-grid">
-      <button class="sync-btn" onclick="syncCal('apple')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#2B2BF5" stroke-width="1.8"></line><line x1="8" y1="2" x2="8" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line><line x1="16" y1="2" x2="16" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line></svg><div class="sync-nm">Apple Calendar</div><div class="sync-sub">iPhone &amp; iPad</div></button>
-      <button class="sync-btn" onclick="syncCal('google')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#EA4335" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#EA4335" stroke-width="1.8"></line></svg><div class="sync-nm">Google Calendar</div><div class="sync-sub">Android &amp; web</div></button>
-      <button class="sync-btn" onclick="syncCal('outlook')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="18" rx="3" stroke="#0078D4" stroke-width="1.8"></rect></svg><div class="sync-nm">Outlook</div><div class="sync-sub">Windows &amp; web</div></button>
-      <button class="sync-btn" onclick="syncCal('ics')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><path d="M12 13v4M10 15h4" stroke="#00CFFF" stroke-width="1.8" stroke-linecap="round"></path></svg><div class="sync-nm">Download .ics</div><div class="sync-sub" id="t-any-cal">Any calendar</div></button>
-    </div>
-    <div class="sec-head" id="t-add-manual">Add manually</div>
-    <div class="form-card">
-      <div class="form-title"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="15" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="2" y1="8" x2="18" y2="8" stroke="#2B2BF5" stroke-width="1.8"></line></svg><span id="t-schedule-visit">Schedule a visit</span></div>
-      <div class="frow"><div class="flbl" id="t-visit-date">Visit date</div><input type="date" class="finput" id="f-date"></div>
-      <div class="frow2">
-        <div><div class="flbl" id="t-time-lbl">Time</div><input type="time" class="finput" id="f-time" value="09:00"></div>
-        <div><div class="flbl" id="t-dur-lbl">Duration</div><select class="finput" id="f-dur"><option value="30">30 min</option><option value="45" selected="">45 min</option><option value="60">1 hour</option><option value="90">1.5 hrs</option></select></div>
+      <div class="vs-hero"><div class="vs-title" id="t-vs-title">Visit <span>scheduler</span></div><div class="vs-sub" id="t-vs-sub">Schedule, sync &amp; stay prepared</div></div>
+      <div class="cd-card">
+        <div class="cd-row">
+          <div><div class="cd-lbl" id="t-next-visit">Next visit</div><div class="cd-date" id="cd-date">No visit scheduled</div><div class="cd-time-txt" id="cd-time" style="display:none"></div></div>
+          <div id="cd-count" style="display:none;text-align:center;"><div class="cd-days" id="cd-days">—</div><div class="cd-days-lbl" id="t-days-away">days away</div></div>
+        </div>
+        <div class="cd-prog" id="cd-prog" style="display:none"><div class="cd-bar" id="cd-bar" style="width:0%"></div></div>
       </div>
-      <div class="frow"><div class="flbl" id="t-doc-lbl">Doctor / clinic</div><input type="text" class="finput" id="f-doc" placeholder="Dr. Smith / City Pediatrics"></div>
-      <div class="frow"><div class="flbl" id="t-type-lbl">Visit type</div><select class="finput" id="f-type"><option id="vt1">18-month checkup</option><option id="vt2">24-month checkup</option><option id="vt3">30-month checkup</option><option id="vt4">3-year checkup</option><option id="vt5">Follow-up visit</option><option id="vt6">Other</option></select></div>
-      <div class="frow"><div class="flbl" id="t-notes-lbl">Notes (optional)</div><textarea class="fnote" id="f-notes" rows="2" placeholder="Questions to bring, things to mention..."></textarea></div>
-      <div class="toast-ok" id="toast-ok"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#44cc88"></circle><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-toast-msg">Visit saved!</span></div>
-      <button class="save-visit-btn" id="t-save-visit-btn" onclick="saveVisit()">Save visit</button>
-    </div>
-    <div style="height:20px"></div>
-  </div>
-
-  <!-- SETTINGS VIEW -->
-  <div id="settings-screen" class="settings-screen">
-    <div class="vs-back-bar">
-      <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
-      <div style="font-size:13px;font-weight:900;color:#2B2BF5;" id="t-settings-title">Profile &amp; Settings</div>
-    </div>
-    <div class="vs-hero"><div class="vs-title" id="t-set-hero">App <span>settings</span></div><div class="vs-sub" id="t-set-sub">View your account &amp; control privacy</div></div>
-    
-    <div class="profile-card">
-      <div class="p-row"><div class="p-lbl" id="t-p-pname">Parent Name</div><div class="p-val" id="p-val-name">—</div></div>
-      <div class="p-row"><div class="p-lbl" id="t-p-email">Email</div><div class="p-val" id="p-val-email">—</div></div>
-      <div class="p-row"><div class="p-lbl" id="t-p-cname">Child Name</div><div class="p-val" id="p-val-cname">—</div></div>
-      <div class="p-row"><div class="p-lbl" id="t-p-dob">Birth Date</div><div class="p-val" id="p-val-dob">—</div></div>
-    </div>
-
-    <div class="sec-head" id="t-settings-privacy">Data sharing &amp; Consent</div>
-    <div class="rem-card" style="margin-top:0px;">
-      <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1l5 2v4c0 3.5-2.5 5.7-5 6.5C5.5 12.7 3 10.5 3 7V3z" stroke="#2B2BF5" stroke-width="1.4" fill="none"></path></svg></div>
-        <div><div class="rem-title" id="t-share-title">Share usage analytics</div><div class="rem-sub" id="t-share-sub">Help me optimize. Off anytime.</div></div></div>
-      <div class="tgl-track" id="share-track" onclick="toggleShare()"><div class="tgl-thumb"></div></div>
-    </div>
-
-    <!-- LOCAL DATA WARNING CARD -->
-    <div class="disc" style="margin:10px 14px 12px; background:#eef0ff; border-color:#8899ee;">
-      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="#2B2BF5" stroke-width="1.5"></rect><circle cx="8" cy="8" r="1.5" fill="#2B2BF5"></circle></svg>
-      <div class="disc-t" id="t-local-warn" style="color:#2B2BF5"><strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.</div>
-    </div>
-
-    <div style="text-align:center;padding:12px 0 24px">
-      <button class="link-min danger" onclick="clearData()" id="t-clear">Reset all my data on this device</button>
-    </div>
-  </div>
-
-  <!-- PEDIATRICIAN HANDOFF VIEW -->
-  <div id="handoff-view">
-    <div class="ho-controls" style="display:flex; justify-content:space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom:1.5px solid var(--sub);">
-      <button class="vs-back-btn" onclick="closeHandoff()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-ho-back">Back</span></button>
-      <button class="abtn" onclick="window.print()" style="padding: 8px 18px; font-size:12px; width:auto; margin:0; box-shadow:none;" id="t-print-btn">Print / Save PDF</button>
-    </div>
-    <div class="ho-header">
-      <div>
-        <div class="ho-wordmark">erli <span>Guide</span></div>
-        <div style="font-size:11px; font-weight:700; color:#888; margin-top:3px;" id="t-ho-tag">Social-Communication Check-in Summary</div>
+      <div class="uc-card"><div class="uc-hd"><div class="uc-title" id="t-sched-visits">Scheduled visits</div><div class="uc-badge" id="vc-badge">0 visits</div></div>
+        <div class="uc-body" id="vc-list"></div></div>
+      <div class="rem-card" style="margin-top:10px;">
+        <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1a5 5 0 0 1 5 5v3l1.5 2H1.5L3 9V6a5 5 0 0 1 5-5z" stroke="#2B2BF5" stroke-width="1.5" fill="none"></path><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" stroke="#2B2BF5" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
+          <div><div class="rem-title" id="t-reminders">Visit reminders</div><div class="rem-sub" id="t-rem-sub">3 days and 1 day before</div></div></div>
+        <div class="tgl-track on" id="rem-track" onclick="toggleRem()"><div class="tgl-thumb"></div></div>
       </div>
-      <div class="ho-date" id="ho-date-val">Mar 24, 2026</div>
+      <div class="sec-head" id="t-add-cal">Add to calendar</div>
+      <div class="sync-grid">
+        <button class="sync-btn" onclick="syncCal('apple')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#2B2BF5" stroke-width="1.8"></line><line x1="8" y1="2" x2="8" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line><line x1="16" y1="2" x2="16" y2="6" stroke="#2B2BF5" stroke-width="1.8" stroke-linecap="round"></line></svg><div class="sync-nm">Apple Calendar</div><div class="sync-sub">iPhone &amp; iPad</div></button>
+        <button class="sync-btn" onclick="syncCal('google')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#EA4335" stroke-width="1.8"></rect><line x1="3" y1="9" x2="21" y2="9" stroke="#EA4335" stroke-width="1.8"></line></svg><div class="sync-nm">Google Calendar</div><div class="sync-sub">Android &amp; web</div></button>
+        <button class="sync-btn" onclick="syncCal('outlook')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="18" rx="3" stroke="#0078D4" stroke-width="1.8"></rect></svg><div class="sync-nm">Outlook</div><div class="sync-sub">Windows &amp; web</div></button>
+        <button class="sync-btn" onclick="syncCal('ics')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><path d="M12 13v4M10 15h4" stroke="#00CFFF" stroke-width="1.8" stroke-linecap="round"></path></svg><div class="sync-nm">Download .ics</div><div class="sync-sub" id="t-any-cal">Any calendar</div></button>
+      </div>
+      <div class="sec-head" id="t-add-manual">Add manually</div>
+      <div class="form-card">
+        <div class="form-title"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="15" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="2" y1="8" x2="18" y2="8" stroke="#2B2BF5" stroke-width="1.8"></line></svg><span id="t-schedule-visit">Schedule a visit</span></div>
+        <div class="frow"><div class="flbl" id="t-visit-date">Visit date</div><input type="date" class="finput" id="f-date"></div>
+        <div class="frow2">
+          <div><div class="flbl" id="t-time-lbl">Time</div><input type="time" class="finput" id="f-time" value="09:00"></div>
+          <div><div class="flbl" id="t-dur-lbl">Duration</div><select class="finput" id="f-dur"><option value="30">30 min</option><option value="45" selected="">45 min</option><option value="60">1 hour</option><option value="90">1.5 hrs</option></select></div>
+        </div>
+        <div class="frow"><div class="flbl" id="t-doc-lbl">Doctor / clinic</div><input type="text" class="finput" id="f-doc" placeholder="Dr. Smith / City Pediatrics"></div>
+        <div class="frow"><div class="flbl" id="t-type-lbl">Visit type</div><select class="finput" id="f-type"><option id="vt1">18-month checkup</option><option id="vt2">24-month checkup</option><option id="vt3">30-month checkup</option><option id="vt4">3-year checkup</option><option id="vt5">Follow-up visit</option><option id="vt6">Other</option></select></div>
+        <div class="frow"><div class="flbl" id="t-notes-lbl">Notes (optional)</div><textarea class="fnote" id="f-notes" rows="2" placeholder="Questions to bring, things to mention..."></textarea></div>
+        <div class="toast-ok" id="toast-ok"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#44cc88"></circle><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-toast-msg">Visit saved!</span></div>
+        <button class="save-visit-btn" id="t-save-visit-btn" onclick="saveVisit()">Save visit</button>
+      </div>
+      <div style="height:20px"></div>
     </div>
-    <div class="ho-grid">
-      <div class="ho-card"><div class="ho-lbl" id="t-ho-p">Parent</div><div class="ho-val" id="ho-parent-val">—</div></div>
-      <div class="ho-card"><div class="ho-lbl" id="t-ho-c">Child</div><div class="ho-val" id="ho-child-val">—</div></div>
+
+    <!-- VISTA: SETTINGS -->
+    <div id="settings-screen" class="settings-screen">
+      <div class="vs-back-bar">
+        <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
+        <div style="font-size:13px;font-weight:900;color:#2B2BF5;" id="t-settings-title">Profile &amp; Settings</div>
+      </div>
+      <div class="vs-hero"><div class="vs-title" id="t-set-hero">App <span>settings</span></div><div class="vs-sub" id="t-set-sub">View your account &amp; control privacy</div></div>
+      
+      <div class="profile-card">
+        <div class="p-row"><div class="p-lbl" id="t-p-pname">Parent Name</div><div class="p-val" id="p-val-name">—</div></div>
+        <div class="p-row"><div class="p-lbl" id="t-p-email">Email</div><div class="p-val" id="p-val-email">—</div></div>
+        <div class="p-row"><div class="p-lbl" id="t-p-cname">Child Name</div><div class="p-val" id="p-val-cname">—</div></div>
+        <div class="p-row"><div class="p-lbl" id="t-p-dob">Birth Date</div><div class="p-val" id="p-val-dob">—</div></div>
+      </div>
+
+      <div class="sec-head" id="t-settings-privacy">Data sharing &amp; Consent</div>
+      <div class="rem-card" style="margin-top:0px;">
+        <div class="rem-left"><div class="rem-icon"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1l5 2v4c0 3.5-2.5 5.7-5 6.5C5.5 12.7 3 10.5 3 7V3z" stroke="#2B2BF5" stroke-width="1.4" fill="none"></path></svg></div>
+          <div><div class="rem-title" id="t-share-title">Share usage analytics</div><div class="rem-sub" id="t-share-sub">Help me optimize. Off anytime.</div></div></div>
+        <div class="tgl-track" id="share-track" onclick="toggleShare()"><div class="tgl-thumb"></div></div>
+      </div>
+
+      <div class="disc" style="margin:10px 14px 12px; background:#eef0ff; border-color:#8899ee;">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;margin-top:1px"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="#2B2BF5" stroke-width="1.5"></rect><circle cx="8" cy="8" r="1.5" fill="#2B2BF5"></circle></svg>
+        <div class="disc-t" id="t-local-warn" style="color:#2B2BF5"><strong>Local Device Storage.</strong> Your reflections are saved securely on this browser only. Install this app to your Home Screen to prevent iOS from automatically clearing your logs.</div>
+      </div>
+
+      <div style="text-align:center;padding:12px 0 24px">
+        <button class="link-min danger" onclick="clearData()" id="t-clear">Reset all my data on this device</button>
+      </div>
     </div>
-    <div class="ho-title" id="t-ho-trends">30-Day Area Summaries</div>
-    <div id="ho-report-list" style="margin-bottom:24px;"></div>
-    <div class="ho-title" id="t-ho-questions">Questions to Hand to Pediatrician</div>
-    <div id="ho-q-list" style="margin-bottom:24px;"></div>
-    <div class="ho-title" id="t-ho-notes">Parent Notes (Recent)</div>
-    <div id="ho-notes-val" style="font-size:12px; line-height:1.6; color:#444; font-style:italic;">No notes recorded.</div>
-    <div style="margin-top:40px; padding-top:12px; border-top:1.5px solid #ddd; font-size:9px; color:#999; text-align:center;" id="t-ho-foot">erli Guide is an experimental reflection log. It does not provide medical diagnoses or replace professional evaluations.</div>
+
+    <!-- PEDIATRICIAN HANDOFF VIEW -->
+    <div id="handoff-view">
+      <div class="ho-controls" style="display:flex; justify-content:space-between; margin-bottom: 24px; padding-bottom: 12px; border-bottom:1.5px solid var(--sub);">
+        <button class="vs-back-btn" onclick="closeHandoff()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-ho-back">Back</span></button>
+        <button class="abtn" onclick="window.print()" style="padding: 8px 18px; font-size:12px; width:auto; margin:0; box-shadow:none;" id="t-print-btn">Print / Save PDF</button>
+      </div>
+      <div class="ho-header">
+        <div>
+          <div class="ho-wordmark">erli <span>Guide</span></div>
+          <div style="font-size:11px; font-weight:700; color:#888; margin-top:3px;" id="t-ho-tag">Social-Communication Check-in Summary</div>
+        </div>
+        <div class="ho-date" id="ho-date-val">Mar 24, 2026</div>
+      </div>
+      <div class="ho-grid">
+        <div class="ho-card"><div class="ho-lbl" id="t-ho-p">Parent</div><div class="ho-val" id="ho-parent-val">—</div></div>
+        <div class="ho-card"><div class="ho-lbl" id="t-ho-c">Child</div><div class="ho-val" id="ho-child-val">—</div></div>
+      </div>
+      <div class="ho-title" id="t-ho-trends">30-Day Area Summaries</div>
+      <div id="ho-report-list" style="margin-bottom:24px;"></div>
+      <div class="ho-title" id="t-ho-questions">Questions to Hand to Pediatrician</div>
+      <div id="ho-q-list" style="margin-bottom:24px;"></div>
+      <div class="ho-title" id="t-ho-notes">Parent Notes (Recent)</div>
+      <div id="ho-notes-val" style="font-size:12px; line-height:1.6; color:#444; font-style:italic;">No notes recorded.</div>
+      <div style="margin-top:40px; padding-top:12px; border-top:1.5px solid #ddd; font-size:9px; color:#999; text-align:center;" id="t-ho-foot">erli Guide is an experimental reflection log. It does not provide medical diagnoses or replace professional evaluations.</div>
+    </div>
   </div>
 
+  <!-- BARRA DE NAVEGACIÓN INFERIOR (TAB BAR FIJA) -->
+  <div class="nav-bar">
+    <button class="nv on" id="nv-reflect" onclick="switchNav('reflect',this)">
+      <div class="nv-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8899ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h.01M12 4h.01M4 12h.01M20 12h.01M5.64 5.64h.01M18.36 5.64h.01M5.64 18.36h.01M18.36 18.36h.01"></path>
+        </svg>
+      </div>
+      <div class="nv-lbl" id="nav-reflect-lbl">Reflect</div>
+    </button>
+    <button class="nv" id="nv-trends" onclick="switchNav('trends',this)">
+      <div class="nv-icon">
+        <svg class="fill" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8899ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 20V10M12 20V4M6 20v-6"></path>
+        </svg>
+      </div>
+      <div class="nv-lbl" id="nav-trends-lbl">Trends</div>
+    </button>
+    <button class="nv" id="nv-report" onclick="switchNav('report',this)">
+      <div class="nv-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8899ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+      </div>
+      <div class="nv-lbl" id="nav-report-lbl">Report</div>
+    </button>
+  </div>
 </div>
 </div>
 
 <script>
 const EB='#2B2BF5',EC='#00CFFF';
 
-/* ═══ CONFIG: paste your analytics endpoint here. Leave '' to keep everything local. ═══ */
+/* ═══ CONFIG: paste your analytics endpoint here later (deploy step). Leave '' to keep everything local. ═══ */
 const ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxTcy_n3Lu6NYEW9Z3Cw8L1Zf5UnMwD7J4KONEBfi67z0-ezF3G1A_R78COYvB4vSTK/exec';
 const APP_VERSION = '2025-07-06';
 
@@ -848,13 +993,28 @@ function applyLang(){const t=T[lang];
   updateSliderLabels();updateWordCtx();rebuildTrends();rebuildReport();updateBanner();updateCountdown();renderList();
 }
 
-function showTab(name,btn){document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('tab-'+name).classList.add('active');
-  track('view_'+name);if(name==='trends')rebuildTrends();if(name==='report')rebuildReport();}
-function switchNav(name,btn){document.querySelectorAll('.nv').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  ['reflect','trends','report'].forEach((t,i)=>document.querySelectorAll('.ntab')[i].classList.toggle('active',t===name));
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$('tab-'+name).classList.add('active');
-  track('view_'+name);if(name==='trends')rebuildTrends();if(name==='report')rebuildReport();closeVisitScreen();closeSettingsScreen();}
+function showTab(name,btn){
+  // Manejo de tabs inferiores de forma nativa
+  track('view_'+name);
+  ['reflect','trends','report'].forEach(scr=>{
+    const el=$('tab-'+scr);
+    if(el) el.classList.toggle('active', scr===name);
+  });
+  if(name==='trends')rebuildTrends();
+  if(name==='report')rebuildReport();
+}
+
+function switchNav(name,btn){
+  document.querySelectorAll('.nv').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  showTab(name,btn);
+  closeVisitScreen();
+  closeSettingsScreen();
+  
+  // Scrollea la vista hacia arriba suavemente al cambiar de sección
+  $('main-container').scrollTo({top: 0, behavior: 'smooth'});
+}
+
 function switchNote(mode,btn){document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
   $('vp-note').classList.toggle('on',mode==='voice');$('tp').classList.toggle('off',mode==='voice');if(mode==='text'&&isRec)stopRec();}
 
@@ -868,6 +1028,8 @@ function doSave(){
   // Hide sliders and show confirmation block
   $('reflection-fields-wrapper').style.display='none';
   $('success-msg').style.display='block';
+  
+  $('main-container').scrollTo({top: 0, behavior: 'smooth'});
 }
 
 function editReflection(){
@@ -955,7 +1117,12 @@ function rebuildReport(){const rl=$('report-list');if(!rl)return;rl.innerHTML=''
   const ql=$('q-list');ql.innerHTML='';T[lang].questions.forEach((q,i)=>{const d=document.createElement('div');d.className='q-item';d.innerHTML=`<div class="q-num">${i+1}</div><div class="q-txt">${q}</div>`;ql.appendChild(d);});}
 
 /* ═══ VISITS ═══ */
-function openVisitScreen(){track('view_visit_scheduler');$('main-screens').style.display='none';$('visit-screen').classList.add('active');}
+function openVisitScreen(){
+  track('view_visit_scheduler');
+  $('main-screens').style.display='none';
+  $('visit-screen').classList.add('active');
+  $('main-container').scrollTo({top: 0, behavior: 'smooth'});
+}
 function closeVisitScreen(){$('visit-screen').classList.remove('active');$('main-screens').style.display='';}
 function daysUntil(d,t){return Math.ceil((new Date(d+'T'+t)-new Date())/(864e5));}
 function fmtDate(d){return new Date(d+'T12:00').toLocaleDateString(lang==='es'?'es-ES':'en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
@@ -997,7 +1164,12 @@ function syncCal(type){const future=visits.filter(v=>daysUntil(v.date,v.time)>=0
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='erli-visita.ics';a.click();}}
 
 /* ═══ SETTINGS NAVIGATION ═══ */
-function openSettingsScreen(){track('view_settings');$('main-screens').style.display='none';$('settings-screen').classList.add('active');}
+function openSettingsScreen(){
+  track('view_settings');
+  $('main-screens').style.display='none';
+  $('settings-screen').classList.add('active');
+  $('main-container').scrollTo({top: 0, behavior: 'smooth'});
+}
 function closeSettingsScreen(){$('settings-screen').classList.remove('active');$('main-screens').style.display='';}
 
 /* ═══ PEDIATRICIAN HANDOFF DRAWER ═══ */
@@ -1008,6 +1180,7 @@ function openHandoff(){
   
   $('main-screens').style.display='none';
   $('handoff-view').style.display='block';
+  $('main-container').scrollTo({top: 0, behavior: 'smooth'});
   
   // Header values
   $('ho-date-val').textContent = new Date().toLocaleDateString(lang==='es'?'es-ES':'en-US',{month:'short',day:'numeric',year:'numeric'});
