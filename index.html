@@ -294,6 +294,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .frow2 > div{flex:1;}
 .finput{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:9px 11px;font-size:12px;font-weight:700;color:var(--eb);font-family:var(--font);outline:none;}
 .finput:focus{border-color:var(--eb);}
+.finput-date{max-width:240px;} /* Prevent excessive stretching of scheduler date box */
 .fnote{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:11px;padding:9px 11px;font-size:11px;color:#444;font-family:var(--font-body);resize:none;outline:none;line-height:1.5;}
 .save-visit-btn{width:100%;padding:12px;background:var(--eb);color:#fff;border:none;border-radius:16px;font-family:var(--font);font-size:13px;font-weight:900;cursor:pointer;margin-top:2px;box-shadow:0 4px 14px rgba(43,43,245,0.25);}
 .uc-card{margin:0 14px 0;border:2.5px solid var(--eb);border-radius:20px;overflow:hidden;}
@@ -382,7 +383,19 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .p-lbl{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
 .p-val{font-size:13px;font-weight:900;color:var(--eb);}
 
-#handoff-view{display:none;background:#fff;padding:32px 24px;font-family:'Nunito Sans',sans-serif;color:#222;}
+#handoff-view{
+  display: none;
+  background: #fff;
+  padding: 32px 24px;
+  font-family: 'Nunito Sans', sans-serif;
+  color: #222;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 100%;
+  z-index: 999;
+}
 .ho-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid var(--eb);padding-bottom:16px;margin-bottom:20px;}
 .ho-wordmark{font-size:24px;font-weight:900;color:var(--eb);font-family:var(--font);}
 .ho-wordmark span{color:var(--ec);}
@@ -401,10 +414,11 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
 .ho-q-txt{font-size:12px;color:#333;line-height:1.5;font-weight:600;}
 
 @media print{
-  body,html{background:#fff!important;height:auto!important;}
-  .shell{box-shadow:none!important;border:none!important;max-width:100%!important;width:100%!important;min-height:auto!important;height:auto!important;}
+  body,html{background:#fff!important;height:auto!important;overflow:visible!important;}
+  .shell{box-shadow:none!important;border:none!important;max-width:100%!important;width:100%!important;min-height:auto!important;height:auto!important;overflow:visible!important;}
+  #main-container{overflow:visible!important;}
   .partner-strip, .topbar, .nav-bar, #main-screens, #visit-screen, .settings-screen, .ho-controls{display:none!important;}
-  #handoff-view{display:block!important;padding:0!important;}
+  #handoff-view{display:block!important;position:relative!important;padding:0!important;z-index:1!important;}
 }
 </style>
 </head>
@@ -614,7 +628,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <button class="save-btn" style="margin-top:0px; background:#fff; border: 2.5px solid var(--eb); color: var(--eb); box-shadow:none;" id="t-sched-btn" onclick="openVisitScreen()">Schedule pediatric visit</button>
     </div>
 
-    <!-- VIEW: VISIT SCHEDULER (Moved inside scroll box) -->
+    <!-- VIEW: VISIT SCHEDULER -->
     <div id="visit-screen" class="visit-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeVisitScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-back">Back</span></button>
@@ -645,7 +659,7 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
       <div class="sec-head" id="t-add-manual">Add manually</div>
       <div class="form-card">
         <div class="form-title"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="16" height="15" rx="3" stroke="#2B2BF5" stroke-width="1.8"></rect><line x1="2" y1="8" x2="18" y2="8" stroke="#2B2BF5" stroke-width="1.8"></line></svg><span id="t-schedule-visit">Schedule a visit</span></div>
-        <div class="frow"><div class="flbl" id="t-visit-date">Visit date</div><input type="date" class="finput" id="f-date" style="max-width: 100%;"></div>
+        <div class="frow"><div class="flbl" id="t-visit-date">Visit date</div><input type="date" class="finput finput-date" id="f-date"></div>
         <div class="frow2">
           <div><div class="flbl" id="t-time-lbl">Time</div><input type="time" class="finput" id="f-time" value="09:00"></div>
           <div><div class="flbl" id="t-dur-lbl">Duration</div><select class="finput" id="f-dur"><option value="30">30 min</option><option value="45" selected="">45 min</option><option value="60">1 hour</option><option value="90">1.5 hrs</option></select></div>
@@ -653,13 +667,13 @@ textarea.ta{width:100%;background:#f5f5ff;border:1.5px solid #dde;border-radius:
         <div class="frow"><div class="flbl" id="t-doc-lbl">Doctor / clinic</div><input type="text" class="finput" id="f-doc" placeholder="Dr. Smith / City Pediatrics"></div>
         <div class="frow"><div class="flbl" id="t-type-lbl">Visit type</div><select class="finput" id="f-type"><option id="vt1">18-month checkup</option><option id="vt2">24-month checkup</option><option id="vt3">30-month checkup</option><option id="vt4">3-year checkup</option><option id="vt5">Follow-up visit</option><option id="vt6">Other</option></select></div>
         <div class="frow"><div class="flbl" id="t-notes-lbl">Notes (optional)</div><textarea class="fnote" id="f-notes" rows="2" placeholder="Questions to bring, things to mention..."></textarea></div>
-        <div class="toast-ok" id="toast-ok" style="display: none !important;"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#44cc88"></circle><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-toast-msg">Visit saved!</span></div>
+        <div class="toast-ok" id="toast-ok"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" fill="#44cc88"></circle><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-toast-msg">Visit saved!</span></div>
         <button class="save-visit-btn" id="t-save-visit-btn" onclick="saveVisit()">Save visit</button>
       </div>
       <div style="height:20px"></div>
     </div>
 
-    <!-- VIEW: SETTINGS (Moved inside scroll box) -->
+    <!-- VIEW: SETTINGS -->
     <div id="settings-screen" class="settings-screen">
       <div class="vs-back-bar">
         <button class="vs-back-btn" onclick="closeSettingsScreen()"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#2B2BF5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg><span id="t-settings-back">Back</span></button>
@@ -920,7 +934,11 @@ function toggleShare(){const accts=getAccounts(),em=currentEmail();if(!accts[em]
 function enterApp(){
   $('splash').style.display='none';$('auth-screen').style.display='none';$('howto-screen').style.display='none';$('welcome-gate').style.display='none';$('main-app').style.display='flex';
   track('app_open');loadReflectionsIntoUI();loadVisits();applyLang();
+  
+  // Start the background midnight check
+  startMidnightCheck();
 }
+
 function loadReflectionsIntoUI(){
   const all=getReflections();$('entries-n').textContent=all.length;$('streak-n').textContent=computeStreak();
   const m=childMonths();$('age-n').textContent=(m!=null)?m:'—';
@@ -939,6 +957,22 @@ function loadReflectionsIntoUI(){
     $('reflection-fields-wrapper').style.display = 'block';
     $('success-msg').style.display = 'none';
     
+    // Dynamic Greeting: Check if user missed previous days
+    let missedDays = false;
+    if(all.length > 0) {
+      const lastEntryDate = new Date(all[0].date + 'T12:00:00');
+      const todayDate = new Date(today + 'T12:00:00');
+      const diffTime = Math.abs(todayDate - lastEntryDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if(diffDays >= 2) missedDays = true;
+    }
+
+    if(missedDays) {
+      txt('t-how', lang==='es'?'¿Te saltaste algunos días? Está bien, ¡agreguemos las notas de hoy!':"Missed logging some days? That's ok, let's add tonight's notes!");
+    } else {
+      txt('t-how', lang==='es'?'¡Espero que hayas tenido un excelente día! Agreguemos tus notas nocturnas.':"Hope you had a great day! Let's start tonight's reflection.");
+    }
+    
     // Reset values to defaults
     SLIDER_ICONS.forEach((_, i) => {
       const sl = $('sl-'+i);
@@ -951,6 +985,22 @@ function loadReflectionsIntoUI(){
     discardRec();
   }
 }
+
+/* ═══ MIDNIGHT TICK CHECKER ═══ */
+let lastCheckedDate = new Date().toISOString().split('T')[0];
+function startMidnightCheck() {
+  setInterval(() => {
+    const today = new Date().toISOString().split('T')[0];
+    if(today !== lastCheckedDate) {
+      // Date crossed midnight! Force interface to adapt
+      lastCheckedDate = today;
+      track('midnight_crossed', {date: today});
+      loadReflectionsIntoUI();
+      applyLang();
+    }
+  }, 60000); // Check every minute
+}
+
 function computeStreak(){const all=getReflections();if(!all.length)return 0;
   const dates=new Set(all.map(r=>r.date));let streak=0,d=new Date();
   for(;;){const key=d.toISOString().split('T')[0];if(dates.has(key)){streak++;d.setDate(d.getDate()-1);}
@@ -979,7 +1029,7 @@ function applyLang(){const t=T[lang];
   if($('main-app').style.display!=='flex'){buildSliders();return;}
   set('hero-title',t.heroTitle);txt('hero-sub',childLabel()||t.heroSub);
   txt('t-streak',t.streak);txt('t-entries',t.entries);txt('t-agemo',t.agemo);
-  txt('t-how',t.how);txt('tab-btn-reflect',t.tabReflect);txt('tab-btn-trends',t.tabTrends);txt('tab-btn-report',t.tabReport);
+  txt('tab-btn-reflect',t.tabReflect);txt('tab-btn-trends',t.tabTrends);txt('tab-btn-report',t.tabReport);
   txt('nav-reflect-lbl',t.tabReflect);txt('nav-trends-lbl',t.tabTrends);txt('nav-report-lbl',t.tabReport);
   txt('t-note-lbl',t.noteLbl);txt('t-type-btn',t.typBtn);txt('t-rec-btn',t.recBtn);attr('note-ta','placeholder',t.notePh);
   txt('rs',isRec?t.recStop:t.recStart);txt('te',t.recPh);txt('t-discard',t.discard);txt('t-use',t.useNote);
@@ -1036,9 +1086,9 @@ function applyLang(){const t=T[lang];
 function showTab(name,btn){
   // Manejo de tabs inferiores de forma nativa
   track('view_'+name);
-  ['reflect','trends','report'].forEach(scr=>{
-    const el=$('tab-'+scr);
-    if(el) el.classList.toggle('active', scr===name);
+  ['tab-reflect','tab-trends','tab-report'].forEach(scr=>{
+    const el=$(scr);
+    if(el) el.classList.toggle('active', scr.includes(name));
   });
   if(name==='trends')rebuildTrends();
   if(name==='report')rebuildReport();
@@ -1213,7 +1263,7 @@ function syncCal(type){const future=visits.filter(v=>daysUntil(v.date,v.time)>=0
   const summ=lang==='es'?'Visita pediátrica – erli Guide':'Pediatric visit – erli Guide';const desc=`Doctor: ${v.doctor||''}`;
   if(type==='google')window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(summ)}&dates=${dtS}/${dtE}&details=${encodeURIComponent(desc)}`,'_blank');
   else if(type==='outlook')window.open(`https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(summ)}&startdt=${v.date}T${v.time}&body=${encodeURIComponent(desc)}`,'_blank');
-  else{const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT',`DTSTART:${dtS}`,`DTEND:${dtE}`,`SUMMARY:${summ}`,`SUMMARY:${summ}`,`DESCRIPTION:${desc}`,'BEGIN:VALARM','TRIGGER:-P3D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita en 3 días':'Visit in 3 days'}`,'END:VALARM','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita mañana':'Visit tomorrow'}`,'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  else{const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT',`DTSTART:${dtS}`,`DTEND:${dtE}`,`SUMMARY:${summ}`,`DESCRIPTION:${desc}`,'BEGIN:VALARM','TRIGGER:-P3D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita en 3 días':'Visit in 3 days'}`,'END:VALARM','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY',`DESCRIPTION:${lang==='es'?'Visita mañana':'Visit tomorrow'}`,'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
     const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='erli-visita.ics';a.click();}}
 
 /* ═══ SETTINGS NAVIGATION ═══ */
@@ -1239,7 +1289,11 @@ function openHandoff(){
   const stats = computeAverages(30);
   if(!stats){ alert(lang==='es'?'Guarda algunas reflexiones primero.':'Please log a few reflections first.'); return; }
   
-  $('main-screens').style.display='none';
+  // Hide active tabs and setting screens so handoff handles fullscreen natively
+  ['tab-reflect','tab-trends','tab-report','settings-screen','visit-screen'].forEach(id=>{
+    const el=$(id); if(el) el.classList.remove('active');
+  });
+  
   $('handoff-view').style.display='block';
   $('main-container').scrollTo({top: 0, behavior: 'smooth'});
   
@@ -1280,7 +1334,13 @@ function openHandoff(){
     notesVal.textContent = lang==='es'?'No se han registrado notas recientes.':'No notes recorded recently.';
   }
 }
-function closeHandoff(){ $('handoff-view').style.display='none'; $('main-screens').style.display=''; }
+function closeHandoff(){ 
+  $('handoff-view').style.display='none'; 
+  
+  // Return back to the active tab screen
+  const activeNav = document.querySelector('.nv.on').id.replace('nv-', 'tab-');
+  $(activeNav).classList.add('active');
+}
 
 /* ═══ VOICE NOTES ═══ */
 function toggleRec(){isRec?stopRec():startRec();}
